@@ -1,0 +1,112 @@
+<section id="home" class="hero" aria-label="فورتو">
+  <div class="hero-stage">
+    <!-- 1. Video wall: three real clips from the centre, edge to edge -->
+    <div class="wall" aria-hidden="true">
+      @for (w of wall; track w.src; let i = $index) {
+        <div class="wall-col wall-col-{{ i + 1 }}">
+          <video class="wall-vid" [attr.data-src]="w.src" [attr.poster]="w.poster" loop playsinline preload="auto"></video>
+          <span class="dim"></span>
+        </div>
+      }
+    </div>
+
+    <!-- 2. The wordmark is a window: video shows only through the letters -->
+    <div class="mask" aria-hidden="true">
+      <span class="mask-word" dir="ltr">
+        @for (l of letters; track $index) {
+          <span class="mask-ch"><span class="mask-ch-in">{{ l }}</span></span>
+        }
+        <!-- Same window as vector shapes: a dark plate with the letters punched out (no blend mode needed) -->
+        <svg class="mask-vec" [attr.viewBox]="maskViewBox" preserveAspectRatio="none" focusable="false">
+          <path [attr.d]="maskPath" fill-rule="evenodd" fill="#000" fill-opacity="0.918" />
+        </svg>
+      </span>
+    </div>
+
+    <span class="shade" aria-hidden="true"></span>
+    <span class="grain" aria-hidden="true"></span>
+
+    <!-- Fortress mark (chapter 2) -->
+    <svg class="mark" [attr.viewBox]="shieldViewBox" aria-hidden="true">
+      <path class="mark-path" pathLength="1" [attr.d]="shieldPath" />
+    </svg>
+
+    <!-- 3. Landing copy (exact brand headline) -->
+    <div class="intro-copy">
+      <p class="kicker" dir="ltr">
+        <span class="kicker-bar"></span>
+        <span>FORTO INTEGRATED CAR CENTER</span>
+        <i>/</i>
+        <span class="kicker-ar">الهرم، الجيزة</span>
+      </p>
+
+      <h1 class="headline">
+        <span class="ln"><span class="ln-in">فورتو</span></span>
+        <span class="sr-only"> - </span>
+        <span class="ln"><span class="ln-in is-accent">عناية تليق بـ سيارتك</span></span>
+      </h1>
+
+      <p class="intro-sub">{{ description }}</p>
+
+      <div class="intro-cta">
+        <a [href]="bookingUrl" [appMagnetic]="0.3" target="_blank" rel="noopener noreferrer" class="btn-brand text-base" data-cursor="احجز">
+          احجز موعدك الآن
+          <svg class="h-5 w-5 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+        <a href="#services" class="btn-ghost text-base">خدماتنا</a>
+      </div>
+    </div>
+
+    <!-- 4. Chapters that play over the open wall -->
+    <div class="caps">
+      @for (c of chapters; track c.tag; let i = $index) {
+        <article class="cap cap-{{ i + 1 }}">
+          <p class="cap-num" dir="ltr"><b>0{{ i + 1 }}</b><span>/ 04</span><i>{{ c.hud }}</i></p>
+          <p class="cap-title" role="presentation">
+            @for (line of c.lines; track line; let li = $index) {
+              <span class="ln"><span class="ln-in" [class.is-accent]="li === c.accent">{{ line }}</span></span>
+            }
+          </p>
+          <p class="cap-sub">{{ c.sub }}</p>
+
+          @if (i === 2) {
+            <ol class="steps">
+              @for (s of steps; track s.num) {
+                <li class="step"><span class="step-num" dir="ltr">{{ s.num }}</span><span>{{ s.title }}</span></li>
+              }
+            </ol>
+          }
+
+          @if (i === 3) {
+            <div class="cap-cta">
+              <a [href]="bookingUrl" [appMagnetic]="0.25" target="_blank" rel="noopener noreferrer" class="btn-brand text-base" data-cursor="احجز">
+                احجز موعدك الآن
+                <svg class="h-5 w-5 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+              <a href="#services" class="btn-ghost text-base">خدماتنا</a>
+            </div>
+          }
+        </article>
+      }
+    </div>
+
+    <!-- 5. HUD -->
+    <div class="hud">
+      <ol class="prog" aria-hidden="true">
+        @for (c of chapters; track c.tag; let i = $index) {
+          <li class="prog-item" [class.is-active]="i === 0">
+            <span class="prog-bar"><span class="prog-fill"></span></span>
+            <span class="prog-label">{{ c.tag }}</span>
+          </li>
+        }
+      </ol>
+
+      <a href="#services" class="cue" aria-label="اسحب لتكمل الحكاية">
+        <span class="cue-line"></span>
+        اسحب لتكمل الحكاية
+      </a>
+
+      <a [href]="phoneHref" class="hud-phone" dir="ltr">{{ phone }}</a>
+    </div>
+  </div>
+</section>

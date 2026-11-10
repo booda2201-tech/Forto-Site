@@ -1,0 +1,43 @@
+.manifesto-text {
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  line-height: 1.45;
+  color: #fff;
+}
+
+.mw {
+  display: inline-block;
+  padding-block: 0.06em 0.14em; // keeps the gradient-filled glyphs from being cut at the box edge
+  opacity: 0.14;
+
+  &.is-accent {
+    color: #f7931e;
+  }
+}
+
+.manifesto-facts {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; // start edge (right in RTL)
+  gap: 0.4rem;
+  padding: 1.4rem 1.5rem;
+  background: #0b0b0b;
+}
+
+.fact-value {
+  font-family: 'Barlow Condensed', 'Cairo', sans-serif;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--brand);
+}
+
+.fact-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #a1a1aa;
+}

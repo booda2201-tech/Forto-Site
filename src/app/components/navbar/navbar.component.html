@@ -1,0 +1,92 @@
+<div #progress class="scroll-progress" aria-hidden="true"></div>
+
+<header class="nav-wrap px-3 pt-3 sm:px-6 sm:pt-4" [class.is-hidden]="hidden() && !menuOpen()">
+  <nav
+    class="nav-bar mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-2xl py-2 ps-4 pe-2.5"
+    [class.is-scrolled]="scrolled()"
+    aria-label="التنقل الرئيسي"
+  >
+    <!-- Brand -->
+    <a href="#home" class="brand flex items-center gap-3" (click)="closeMenu()" aria-label="فورتو - الرئيسية">
+      <img class="brand-mark" src="brand/logo.jpg" alt="" width="44" height="44" />
+      <span class="flex flex-col leading-tight">
+        <span class="text-brand-gradient text-lg font-extrabold">{{ brand }}</span>
+        <span class="font-wordmark text-[0.62rem] font-medium uppercase tracking-[0.2em] text-zinc-400" dir="ltr">
+          {{ descriptor }}
+        </span>
+      </span>
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="nav-links">
+      @for (link of links; track link.href) {
+        <li>
+          <a
+            [href]="link.href"
+            class="nav-link"
+            [class.is-active]="active() === link.href"
+            [attr.aria-current]="active() === link.href ? 'true' : null"
+          >
+            {{ link.label }}
+          </a>
+        </li>
+      }
+    </ul>
+
+    <!-- Desktop actions -->
+    <div class="nav-actions">
+      <a [href]="phoneHref" class="nav-phone" aria-label="اتصل بنا">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+        </svg>
+        <span dir="ltr">{{ phone }}</span>
+      </a>
+      <a [href]="bookingUrl" target="_blank" rel="noopener noreferrer" class="btn-brand btn-sm nav-cta">
+        احجز موعدك الآن
+      </a>
+    </div>
+
+    <!-- Mobile toggle -->
+    <button
+      type="button"
+      class="menu-toggle"
+      [class.is-open]="menuOpen()"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="mobile-menu"
+      aria-label="القائمة"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  @if (menuOpen()) {
+    <div id="mobile-menu" class="mobile-menu mx-auto mt-2 max-w-6xl rounded-2xl p-3">
+      <ul class="flex flex-col">
+        @for (link of links; track link.href; let i = $index) {
+          <li>
+            <a
+              [href]="link.href"
+              (click)="closeMenu()"
+              class="mobile-link"
+              [class.is-active]="active() === link.href"
+              [style.animation-delay.ms]="i * 45"
+            >
+              <span class="mobile-link-num" aria-hidden="true">0{{ i + 1 }}</span>
+              {{ link.label }}
+            </a>
+          </li>
+        }
+      </ul>
+      <div class="mt-3 grid grid-cols-2 gap-2">
+        <a [href]="phoneHref" class="btn-ghost !px-3 !py-3 text-sm" (click)="closeMenu()">اتصل بنا</a>
+        <a [href]="bookingUrl" target="_blank" rel="noopener noreferrer" class="btn-brand !px-3 !py-3 text-sm" (click)="closeMenu()">
+          احجز واتساب
+        </a>
+      </div>
+    </div>
+  }
+</header>

@@ -1,0 +1,151 @@
+.service-card {
+  --mx: 50%;
+  --my: 0%;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition:
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
+
+  &:hover {
+    border-color: rgba(247, 147, 30, 0.55);
+    box-shadow:
+      0 30px 70px -14px rgba(0, 0, 0, 0.8),
+      0 0 50px -12px rgba(247, 147, 30, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    .service-photo {
+      opacity: 1;
+      transform: scale(1.12);
+      filter: grayscale(0) saturate(1.1) brightness(0.95);
+    }
+
+    .service-spot {
+      opacity: 1;
+    }
+
+    .service-line {
+      transform: scaleX(1);
+    }
+
+    .service-icon {
+      color: #1a0f02;
+      background: var(--brand-gradient);
+      box-shadow: 0 0 30px -4px rgba(247, 147, 30, 0.8);
+    }
+
+    .service-desc {
+      color: #fff;
+    }
+  }
+}
+
+// The 3D tilt only runs with a mouse; skip the extra 3D layers on touch screens.
+@media (hover: none) {
+  .service-card {
+    transform-style: flat;
+  }
+}
+
+.service-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  transform: scale(1.04);
+  filter: grayscale(0.75) brightness(0.7);
+  transition:
+    opacity 0.8s ease,
+    filter 0.8s ease,
+    transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// Keeps copy legible above the photo.
+.service-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8, 8, 8, 0.98) 0%, rgba(8, 8, 8, 0.88) 30%, rgba(8, 8, 8, 0.2) 62%, rgba(8, 8, 8, 0.35) 100%);
+}
+
+// Cursor-following light.
+.service-spot {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(260px circle at var(--mx) var(--my), rgba(247, 147, 30, 0.28), transparent 65%);
+  mix-blend-mode: screen;
+  transition: opacity 0.4s ease;
+}
+
+.service-index {
+  position: absolute;
+  inset-block-start: 1.25rem;
+  inset-inline-end: 1.5rem;
+  font-family: 'Barlow Condensed', 'Cairo', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.service-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  color: var(--brand);
+  background: rgba(247, 147, 30, 0.1);
+  border: 1px solid rgba(247, 147, 30, 0.38);
+  transition:
+    color 0.4s ease,
+    background 0.4s ease,
+    box-shadow 0.4s ease;
+
+  svg {
+    width: 1.65rem;
+    height: 1.65rem;
+  }
+}
+
+.service-desc {
+  transition: color 0.4s ease;
+}
+
+// "المغسلة" / "الميكانيكا" / "الحماية والدوكو": what the department is.
+.dept-role {
+  display: inline-block;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--brand-light);
+  background: rgba(247, 147, 30, 0.12);
+  border: 1px solid rgba(247, 147, 30, 0.4);
+  border-radius: 9999px;
+}
+
+.dept-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-top: 0.6rem;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 0 10px rgba(247, 147, 30, 0.8);
+}
+
+.service-line {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--brand-gradient);
+  transform: scaleX(0);
+  transform-origin: right; // grows from the inline-start edge in RTL
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}

@@ -1,0 +1,27 @@
+﻿<div #root class="preloader" role="status" aria-label="جاري التحميل">
+  <div class="pre-curtain pre-curtain--top"></div>
+  <div class="pre-curtain pre-curtain--bottom"></div>
+
+  <div class="pre-center">
+    <svg class="pre-logo" [attr.viewBox]="viewBox" aria-hidden="true">
+      <path
+        class="pre-logo-path"
+        [attr.d]="path"
+        pathLength="1"
+        fill="#F7931E"
+        fill-rule="evenodd"
+        stroke="#F7931E"
+        stroke-width="4"
+        stroke-dasharray="1"
+        stroke-dashoffset="1"
+        fill-opacity="0"
+      />
+    </svg>
+
+    <div class="pre-meta" dir="ltr">
+      <span class="pre-word">FORTO</span>
+      <span class="pre-rule"></span>
+      <span #count class="pre-count">000</span>
+    </div>
+  </div>
+</div>

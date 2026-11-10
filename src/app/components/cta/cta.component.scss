@@ -1,0 +1,110 @@
+.cta {
+  background:
+    radial-gradient(60% 50% at 0% 100%, rgba(247, 147, 30, 0.1), transparent 70%),
+    var(--ink);
+}
+
+/* ---------- Contact details: plain rows divided by hairlines ---------- */
+.cta-list {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cta-item {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  dt {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--brand);
+  }
+}
+
+.cta-phone {
+  font-family: 'Barlow Condensed', 'Cairo', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: #fff;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--brand-light);
+  }
+}
+
+.cta-link {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #d4d4d8;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--brand-light);
+  }
+}
+
+/* ---------- Map ---------- */
+.cta-map {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(247, 147, 30, 0.25);
+  background: #121212;
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.9);
+
+  // The map takes the leftover height; the action bar below never covers it
+  // (so Google's attribution stays visible).
+  &__frame {
+    display: block;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 18rem;
+    border: 0;
+    // Turns Google's light map into a dark one that matches the site.
+    filter: invert(92%) hue-rotate(180deg) grayscale(0.35) contrast(0.95) brightness(0.9);
+  }
+
+  &__open {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 1rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #1a0f02;
+    background: var(--brand);
+    transition: background 0.3s ease;
+
+    svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    &:hover {
+      background: var(--brand-light);
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .cta-link {
+    display: inline-block;
+    padding-block: 0.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-item {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}

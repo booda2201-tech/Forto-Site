@@ -1,0 +1,97 @@
+﻿.gallery-grid {
+  grid-auto-rows: 11rem;
+
+  @media (min-width: 768px) {
+    grid-auto-rows: 14rem;
+  }
+}
+
+.gallery-tile {
+  // Overrides AOS' transition-duration only after reveal is done; keeps hover snappy.
+  &.aos-animate {
+    transition-property: transform, opacity, border-color, box-shadow;
+  }
+
+  &:hover {
+    border-color: rgba(247, 147, 30, 0.5);
+    box-shadow:
+      0 24px 60px -12px rgba(0, 0, 0, 0.75),
+      0 0 40px -10px rgba(247, 147, 30, 0.35);
+  }
+}
+
+// Metallic "paint reflection" placeholder – replace by setting `image` on an item.
+.tile-art {
+  position: absolute;
+  inset: 0;
+  background: var(--tile-bg);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+
+  // Moving specular highlight, like light sweeping over a clear-coated panel.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.11) 47%, rgba(255, 194, 122, 0.18) 50%, transparent 58%);
+    transform: translateX(40%);
+    transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  // Fine pinstripe grain.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0 1px, transparent 1px 4px);
+    mix-blend-mode: overlay;
+  }
+}
+
+.gallery-tile:hover .tile-art {
+  transform: scale(1.06);
+
+  &::before {
+    transform: translateX(-40%);
+  }
+}
+
+// Scroll parallax (GSAP) owns the image transform, so hover only adjusts brightness.
+.tile-img {
+  will-change: transform;
+  filter: saturate(1) brightness(0.92);
+  transition: filter 0.6s ease;
+}
+
+.gallery-tile:hover .tile-img {
+  filter: saturate(1.15) brightness(1.05);
+}
+
+.tile-caption {
+  padding-top: 3rem;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.92), rgba(10, 10, 10, 0.55) 55%, transparent);
+}
+
+[data-tone='a'] {
+  --tile-bg: radial-gradient(90% 70% at 25% 20%, rgba(247, 147, 30, 0.35), transparent 60%),
+    linear-gradient(145deg, #2a180a 0%, #0f0e0a 60%, #070707 100%);
+}
+[data-tone='b'] {
+  --tile-bg: radial-gradient(80% 80% at 80% 10%, rgba(255, 255, 255, 0.12), transparent 55%),
+    linear-gradient(160deg, #1d1d20 0%, #0c0c0d 100%);
+}
+[data-tone='c'] {
+  --tile-bg: radial-gradient(70% 70% at 20% 90%, rgba(247, 147, 30, 0.22), transparent 60%),
+    linear-gradient(200deg, #202022 0%, #0a0a0a 100%);
+}
+[data-tone='d'] {
+  --tile-bg: radial-gradient(80% 60% at 70% 80%, rgba(180, 90, 14, 0.3), transparent 60%),
+    linear-gradient(130deg, #17171a 0%, #090909 100%);
+}
+[data-tone='e'] {
+  --tile-bg: radial-gradient(70% 70% at 50% 0%, rgba(255, 194, 122, 0.16), transparent 60%),
+    linear-gradient(180deg, #241608 0%, #0a0a0a 100%);
+}
+[data-tone='f'] {
+  --tile-bg: radial-gradient(60% 120% at 80% 50%, rgba(247, 147, 30, 0.25), transparent 65%),
+    linear-gradient(90deg, #0a0a0a 0%, #26150a 55%, #0a0a0a 100%);
+}

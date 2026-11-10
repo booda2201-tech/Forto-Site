@@ -1,0 +1,104 @@
+<footer id="contact" class="footer relative overflow-hidden px-4 pt-24 sm:px-6">
+  <div #card class="footer-card relative mx-auto max-w-6xl">
+    <div class="footer-divider"></div>
+
+    <!-- Row 1: brand · departments · call to action -->
+    <div class="grid items-center gap-8 pt-12 lg:grid-cols-[auto_1fr_auto] lg:gap-12">
+      <a href="#home" class="flex items-center gap-4" aria-label="فورتو - الرئيسية">
+        <img class="footer-logo" src="brand/logo.jpg" alt="" width="52" height="52" loading="lazy" />
+        <span class="flex flex-col leading-tight">
+          <span class="text-brand-gradient text-2xl font-extrabold">{{ brand }}</span>
+          <span class="font-wordmark mt-1 text-[0.66rem] font-medium uppercase tracking-[0.22em] text-zinc-400" dir="ltr">
+            Integrated Car Center
+          </span>
+        </span>
+      </a>
+
+      <nav class="footer-depts" aria-label="أقسام فورتو">
+        @for (dept of departments; track dept.latin) {
+          <a href="#services" class="footer-dept">
+            <span class="footer-dept__name">{{ dept.name }}</span>
+            <span class="footer-dept__latin" dir="ltr">{{ dept.latin }}</span>
+          </a>
+        }
+      </nav>
+
+      <div class="flex flex-wrap items-center gap-4">
+        <a [href]="site.phoneHref" class="footer-phone" dir="ltr">{{ site.phoneDisplay }}</a>
+        <a [href]="whatsapp" target="_blank" rel="noopener noreferrer" class="btn-brand footer-wa">احجز موعدك</a>
+      </div>
+    </div>
+
+    <!-- Row 2: links · address · email -->
+    <div class="footer-meta mt-10 flex flex-col gap-5 pt-6 lg:flex-row lg:items-center lg:justify-between">
+      <nav aria-label="روابط سريعة" class="flex flex-wrap gap-x-6 gap-y-2">
+        @for (link of links; track link.href) {
+          <a [href]="link.href" class="footer-link text-sm text-zinc-400">{{ link.label }}</a>
+        }
+      </nav>
+
+      <div class="flex flex-col gap-3 text-sm text-zinc-400 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-7">
+        <a [href]="site.mapsUrl" target="_blank" rel="noopener noreferrer" class="footer-inline" aria-label="افتح الموقع على خرائط جوجل">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          <span>الهرم، الجيزة - الطريق الدائري</span>
+        </a>
+        <a [href]="'mailto:' + site.email" class="footer-inline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="m3 7 9 6 9-6" />
+          </svg>
+          <span dir="ltr">{{ site.email }}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Row 3: copyright · social · back to top -->
+    <div class="flex flex-col items-center justify-between gap-4 pt-8 text-xs text-zinc-500 sm:flex-row">
+      <p>© {{ year }} {{ brand }}. جميع الحقوق محفوظة.</p>
+
+      <ul class="flex items-center gap-5">
+        <li>
+          <a [href]="site.social.instagram" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a [href]="site.social.facebook" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a [href]="whatsapp" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 21l1.65-4.9A8.5 8.5 0 1 1 8 19.4z" />
+              <path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1-.9.7a3.5 3.5 0 0 1-1.7-1.7l.7-.9-1-1.9z" />
+            </svg>
+          </a>
+        </li>
+      </ul>
+
+      <a href="#home" class="back-top" aria-label="العودة لأعلى الصفحة">
+        <span>للأعلى</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 19V5" />
+          <path d="m5 12 7-7 7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Oversized wordmark: outlined, cropped by the footer's bottom edge, lights up under the cursor -->
+    <div #word class="footer-word" dir="ltr" aria-hidden="true">
+      <span class="footer-word__base">FORTO</span>
+      <span class="footer-word__glow">FORTO</span>
+    </div>
+  </div>
+</footer>

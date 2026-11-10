@@ -1,0 +1,26 @@
+<section class="marquee relative overflow-hidden pb-10" aria-hidden="true" dir="ltr">
+  <div class="hazard-bar mb-10"></div>
+  <!-- Row 1: solid Latin -->
+  <div class="marquee-row">
+    <div class="marquee-track">
+      @for (c of copies; track c) {
+        @for (word of latin; track word) {
+          <span class="marquee-item marquee-item--solid font-wordmark">{{ word }}</span>
+          <span class="marquee-sep"></span>
+        }
+      }
+    </div>
+  </div>
+
+  <!-- Row 2: outlined Arabic -->
+  <div class="marquee-row mt-2">
+    <div class="marquee-track">
+      @for (c of copies; track c) {
+        @for (word of arabic; track word) {
+          <span class="marquee-item marquee-item--outline">{{ word }}</span>
+          <span class="marquee-sep"></span>
+        }
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,294 @@
+// The bar is a zero-height sticky rail; the whole header slides out of view while reading down.
+.nav-wrap {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+
+  &.is-hidden {
+    transform: translateY(-140%);
+  }
+}
+
+.nav-bar {
+  position: relative;
+  background: rgba(12, 12, 12, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    padding 0.4s ease;
+
+  // Hairline of brand light along the top edge.
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 12%;
+    top: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(247, 147, 30, 0.7), transparent);
+    opacity: 0.5;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  // Phones: a lighter blur is almost indistinguishable but far cheaper to composite over video.
+  @media (max-width: 767px) {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  &.is-scrolled {
+    background: rgba(10, 10, 10, 0.82);
+    border-color: rgba(247, 147, 30, 0.24);
+    box-shadow:
+      0 16px 44px -8px rgba(0, 0, 0, 0.75),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+// Official logo tile (white castle-shield on brand orange).
+.brand-mark {
+  display: block;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0.8rem;
+  object-fit: cover;
+  box-shadow: 0 0 20px -4px rgba(247, 147, 30, 0.55);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.brand:hover .brand-mark {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+/* ---------- Desktop links ---------- */
+.nav-links {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+
+  @media (min-width: 1024px) {
+    display: flex;
+  }
+}
+
+.nav-link {
+  position: relative;
+  display: block;
+  padding: 0.55rem 0.85rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #a1a1aa;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
+
+  // Underline grows from the inline-start edge (right side in RTL).
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0.85rem;
+    bottom: 0.2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--brand);
+    box-shadow: 0 0 10px rgba(247, 147, 30, 0.8);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  &.is-active {
+    color: #fff;
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* ---------- Desktop actions ---------- */
+.nav-actions {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+
+  @media (min-width: 1024px) {
+    display: flex;
+  }
+}
+
+.nav-phone {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #e4e4e7;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background-color 0.3s ease;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--brand);
+  }
+
+  &:hover {
+    color: #fff;
+    border-color: rgba(247, 147, 30, 0.6);
+    background: rgba(247, 147, 30, 0.08);
+  }
+
+  @media (min-width: 1200px) {
+    display: inline-flex;
+  }
+}
+
+.nav-cta {
+  white-space: nowrap;
+}
+
+/* ---------- Mobile ---------- */
+.menu-toggle {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0 0.75rem;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+
+  span {
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--brand);
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  &.is-open {
+    span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+    }
+
+    span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+}
+
+.mobile-menu {
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(247, 147, 30, 0.22);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.8);
+  animation: menu-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.95rem 1rem;
+  border-radius: 0.9rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #d4d4d8;
+  animation: link-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+
+  &:hover,
+  &.is-active {
+    color: #fff;
+    background: rgba(247, 147, 30, 0.1);
+  }
+
+  &.is-active .mobile-link-num {
+    color: var(--brand);
+  }
+}
+
+.mobile-link-num {
+  font-family: 'Barlow Condensed', 'Cairo', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 0.25s ease;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+}
+
+@keyframes link-in {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+}
+
+// Reading progress hairline pinned to the top of the viewport.
+.scroll-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 60;
+  height: 2px;
+  background: var(--brand-gradient);
+  box-shadow: 0 0 12px rgba(247, 147, 30, 0.8);
+  transform: scaleX(0);
+  transform-origin: right; // fills from the inline-start edge in RTL
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-wrap,
+  .mobile-menu,
+  .mobile-link {
+    transition: none;
+    animation: none;
+  }
+}

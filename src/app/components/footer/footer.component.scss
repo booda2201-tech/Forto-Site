@@ -1,0 +1,274 @@
+.footer {
+  // Soft brand glow rising from the bottom edge.
+  background: radial-gradient(60rem 22rem at 50% 100%, rgba(247, 147, 30, 0.1), transparent 70%);
+}
+
+.footer-card {
+  // Everything except the wordmark stays above it.
+  > :not(.footer-word) {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.footer-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(247, 147, 30, 0.55), transparent);
+}
+
+.footer-meta {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.footer-logo {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 1rem;
+  object-fit: cover;
+  border: 1px solid rgba(247, 147, 30, 0.35);
+}
+
+/* ---------- Departments: one line, divided by hairlines ---------- */
+.footer-depts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 0;
+}
+
+.footer-dept {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding-inline: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+
+  & + & {
+    border-inline-start: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__name {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    transition: color 0.3s ease;
+  }
+
+  &__latin {
+    font-family: 'Barlow Condensed', 'Cairo', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+
+    .footer-dept__name {
+      color: var(--brand-light);
+    }
+  }
+}
+
+/* ---------- Call to action ---------- */
+.footer-phone {
+  font-family: 'Barlow Condensed', 'Cairo', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fff;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--brand-light);
+  }
+}
+
+.footer-wa {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* ---------- Links ---------- */
+.footer-link {
+  display: inline-block;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--brand-light);
+  }
+}
+
+.footer-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  transition: color 0.3s ease;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+    color: var(--brand);
+  }
+
+  &:hover {
+    color: var(--brand-light);
+  }
+}
+
+.social-link {
+  display: block;
+  color: #a1a1aa;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+
+  svg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  &:hover {
+    color: var(--brand);
+    transform: translateY(-2px);
+  }
+}
+
+.back-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #a1a1aa;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+
+  svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+
+  &:hover {
+    color: var(--brand-light);
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-dept {
+    padding-inline: 1rem;
+  }
+}
+
+// Touch screens: comfortable tap targets (about 44px).
+@media (max-width: 767px) {
+  .footer-link {
+    padding-block: 0.6rem;
+  }
+
+  .footer-inline {
+    padding-block: 0.5rem;
+  }
+
+  .social-link {
+    padding: 0.7rem;
+  }
+
+  .back-top {
+    padding: 0.7rem 0.5rem;
+  }
+}
+
+// Phones: departments become a tidy list instead of a wrapping row.
+@media (max-width: 480px) {
+  .footer-depts {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    border-block: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .footer-dept {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 0.25rem;
+    text-align: start;
+
+    & + & {
+      border-inline-start: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  }
+}
+
+/* ---------- Oversized "FORTO" that lights up under the cursor ---------- */
+.footer-word {
+  --mx: 50%;
+  --my: 50%;
+  // Its own band under the content (never behind text); the whole word stays
+  // visible above the page's bottom edge.
+  position: relative;
+  z-index: 0;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  padding-bottom: 0.1em;
+  pointer-events: none;
+  text-align: center;
+  font-family: 'Barlow Condensed', 'Cairo', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(6rem, 22vw, 18rem);
+  line-height: 0.9;
+  white-space: nowrap;
+  user-select: none;
+
+  @media (max-width: 640px) {
+    font-size: 33vw;
+    margin-top: 1rem;
+  }
+
+  span {
+    display: block;
+    padding-inline: 0.04em;
+  }
+
+  // Always-visible outline.
+  &__base {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(247, 147, 30, 0.38);
+    transition: -webkit-text-stroke-color 0.4s ease;
+  }
+
+  // Same word stacked on top: filled with a spotlight that follows the pointer.
+  &__glow {
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background-image: radial-gradient(
+      circle 16rem at var(--mx) var(--my),
+      #fff 0%,
+      rgba(255, 214, 160, 0.95) 18%,
+      rgba(247, 147, 30, 0.75) 42%,
+      transparent 72%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+    filter: drop-shadow(0 0 22px rgba(247, 147, 30, 0.55));
+  }
+
+  &.is-lit &__glow {
+    opacity: 1;
+  }
+
+  &.is-lit &__base {
+    -webkit-text-stroke-color: rgba(247, 147, 30, 0.6);
+  }
+}

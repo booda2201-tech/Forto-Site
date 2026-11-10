@@ -1,0 +1,53 @@
+﻿<section id="center" class="center-pin relative">
+  <div class="mx-auto flex min-h-screen max-w-6xl flex-col justify-center gap-12 px-6 py-24 lg:flex-row lg:items-center lg:gap-16 lg:pb-6 lg:pt-24">
+    <!-- Copy -->
+    <div class="text-start lg:w-[44%]">
+      <p class="section-kicker" data-aos="fade-up"><span>02</span> المركز</p>
+      <h2 class="mt-5 t-h2 text-white" data-aos="fade-up" data-aos-delay="100">
+        مكان واحد<br /><span class="text-brand-gradient">لكل احتياجات سيارتك</span>
+      </h2>
+
+      <!-- Desktop: scroll-linked list -->
+      <div class="relative mt-12 hidden lg:block">
+        <span class="progress-track" aria-hidden="true"><span class="progress-fill"></span></span>
+        <ul class="space-y-9 ps-8">
+          @for (zone of zones; track zone.label; let i = $index) {
+            <li class="zone-item">
+              <p class="font-wordmark text-xs font-medium uppercase tracking-[0.2em] text-brand-400 text-right" dir="ltr">{{ zone.label }}</p>
+              <h3 class="mt-2 text-2xl font-extrabold text-white">{{ zone.title }}</h3>
+              <p class="zone-desc mt-3 max-w-md leading-loose text-zinc-400">{{ zone.description }}</p>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Desktop: pinned stage -->
+    <div class="stage relative hidden aspect-[4/5] w-full max-w-xl overflow-hidden rounded-3xl lg:block lg:max-h-[74vh] lg:w-[56%]" data-cursor="">
+      @for (zone of zones; track zone.label) {
+        <div class="stage-slide absolute inset-0">
+          <img [src]="zone.image" [alt]="zone.title" [style.object-position]="zone.focus" class="h-full w-full object-cover" loading="lazy" decoding="async" />
+        </div>
+      }
+      <div class="stage-overlay pointer-events-none absolute inset-0"></div>
+      <span class="stage-count font-wordmark" aria-hidden="true">01</span>
+      <span class="stage-total font-wordmark" aria-hidden="true">/ 03</span>
+    </div>
+
+    <!-- Mobile / tablet: stacked cards -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:hidden">
+      @for (zone of zones; track zone.label; let i = $index) {
+        <article class="glass-card overflow-hidden rounded-3xl" data-aos="fade-up" [attr.data-aos-delay]="i * 120">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img [src]="zone.image" [alt]="zone.title" [style.object-position]="zone.focus" class="h-full w-full object-cover" loading="lazy" decoding="async" />
+          </div>
+          <div class="p-6 text-start">
+            <p class="font-wordmark text-xs font-medium uppercase tracking-[0.2em] text-brand-400 text-right" dir="ltr">{{ zone.label }}</p>
+            <h3 class="mt-2 text-xl font-extrabold text-white">{{ zone.title }}</h3>
+            <p class="mt-3 text-sm leading-loose text-zinc-400">{{ zone.description }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

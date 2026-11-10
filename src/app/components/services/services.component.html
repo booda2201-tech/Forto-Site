@@ -1,0 +1,64 @@
+﻿<section id="services" class="relative py-28 sm:py-36">
+  <div class="mx-auto max-w-6xl px-6">
+    <header class="services-head max-w-2xl text-start">
+      <p class="services-kicker section-kicker"><span>01</span> أقسام فورتو</p>
+      <h2 class="mt-5 t-h2 text-white">
+        <span class="block overflow-hidden pb-4 pt-3 -mt-3">
+          <span class="services-title-inner text-brand-gradient block">ثلاثة أقسام، مكان واحد</span>
+        </span>
+      </h2>
+      <p class="services-intro mt-4 text-base leading-loose text-zinc-400">{{ intro }}</p>
+    </header>
+
+    <div class="mt-16 grid gap-6 lg:grid-cols-3">
+      @for (dept of departments; track dept.subtitle; let i = $index) {
+        <!-- AOS lives on the wrapper so the card's own tilt transform doesn't fight it. -->
+        <article data-aos="fade-up" [attr.data-aos-delay]="i * 150" class="h-full">
+          <div appTilt class="glass-card service-card relative flex h-full min-h-[34rem] flex-col rounded-3xl p-7">
+            <!-- Photo that blooms in on hover -->
+            <img
+              class="service-photo"
+              [src]="dept.image"
+              [style.object-position]="dept.focus"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="service-shade" aria-hidden="true"></span>
+            <span class="service-spot" aria-hidden="true"></span>
+
+            <span class="service-index" aria-hidden="true">0{{ i + 1 }}</span>
+
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                @for (d of dept.paths; track d) {
+                  <path [attr.d]="d" />
+                }
+              </svg>
+            </span>
+
+            <div class="relative mt-auto pt-24">
+              <span class="dept-role">{{ dept.role }}</span>
+              <h3 class="mt-4 text-2xl font-extrabold leading-snug text-white">{{ dept.title }}</h3>
+              <p class="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand-400/90 text-right" dir="ltr">
+                {{ dept.subtitle }}
+              </p>
+              <p class="service-desc mt-4 text-sm leading-loose text-zinc-300">{{ dept.description }}</p>
+
+              <ul class="mt-5 space-y-2.5 text-sm text-zinc-200">
+                @for (item of dept.items; track item) {
+                  <li class="flex items-start gap-2.5">
+                    <span class="dept-dot" aria-hidden="true"></span>
+                    <span>{{ item }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+
+            <span class="service-line" aria-hidden="true"></span>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

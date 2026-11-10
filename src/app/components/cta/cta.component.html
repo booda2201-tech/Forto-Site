@@ -1,0 +1,62 @@
+﻿<section class="cta relative isolate overflow-hidden px-6 py-24 sm:py-32">
+  <div class="mx-auto grid max-w-6xl items-stretch gap-14 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
+    <!-- Copy + contact details -->
+    <div class="flex flex-col justify-center text-center lg:text-start">
+      <p class="section-kicker justify-center lg:justify-start" data-aos="fade-up"><span>05</span> تواصل معنا</p>
+
+      <h2 class="mt-6 t-h2 text-white">
+        <span class="block overflow-hidden pb-3 pt-3 -mt-3"><span class="cta-line-inner block">جاهزين لاستقبال</span></span>
+        <span class="block overflow-hidden pb-3 pt-3 -mt-3"><span class="cta-line-inner text-brand-gradient block">سيارتك</span></span>
+      </h2>
+
+      <p class="mx-auto mt-6 max-w-lg text-base leading-loose text-zinc-400 lg:mx-0" data-aos="fade-up" data-aos-delay="100">
+        ابعتلنا على واتساب أو كلمنا، ونحجزلك موعد في القسم المناسب: كار كير، سيرفيس، أو بروتكشن.
+      </p>
+
+      <dl class="cta-list mt-10 text-start" data-aos="fade-up" data-aos-delay="150">
+        <div class="cta-item">
+          <dt>التليفون</dt>
+          <dd>
+            <a [href]="phoneHref" class="cta-phone" dir="ltr">{{ phone }}</a>
+          </dd>
+        </div>
+        <div class="cta-item">
+          <dt>العنوان</dt>
+          <dd>
+            <a [href]="mapsUrl" target="_blank" rel="noopener noreferrer" class="cta-link">{{ address }}</a>
+          </dd>
+        </div>
+        <div class="cta-item">
+          <dt>الإيميل</dt>
+          <dd>
+            <a [href]="'mailto:' + email" class="cta-link" dir="ltr">{{ email }}</a>
+          </dd>
+        </div>
+      </dl>
+
+      <div class="cta-actions mt-10 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4 lg:justify-start" data-aos="fade-up" data-aos-delay="200">
+        <a [href]="bookingUrl" target="_blank" rel="noopener noreferrer" class="btn-brand" data-cursor="احجز">احجز موعدك على واتساب</a>
+        <a [href]="phoneHref" class="btn-ghost">اتصل الآن</a>
+      </div>
+    </div>
+
+    <!-- Location -->
+    <div class="cta-map" data-aos="fade-up" data-aos-delay="100">
+      <iframe
+        class="cta-map__frame"
+        [src]="mapEmbed"
+        title="موقع فورتو على الخريطة"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+      <a [href]="mapsUrl" target="_blank" rel="noopener noreferrer" class="cta-map__open">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        افتح في خرائط جوجل
+      </a>
+    </div>
+  </div>
+</section>
