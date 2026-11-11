@@ -135,7 +135,6 @@ export const DEPARTMENTS: readonly Department[] = [
     works: [],
     reels: [
       REEL('DfNFLvHCG3s', 'ورشة فورتو من الداخل'),
-      REEL('DffKc34O8KR', 'جولة في المركز'),
       REEL('De4TRS7j1Tj', 'نصيحة من فريق فورتو'),
       REEL('Dew3IJYij8h', 'كلمة من فريق الورشة'),
     ],
@@ -194,6 +193,9 @@ export const STATION_PHOTO: DepartmentPhoto = {
   image: 'brand/place-aerial.jpg',
   focus: '50% 45%',
 };
+
+/** Videos about the whole centre, not one department: shown on the home page. */
+export const CENTER_REELS: readonly Reel[] = [REEL('DffKc34O8KR', 'جولة في المركز')];
 
 export function departmentBySlug(slug: string | null | undefined): Department | undefined {
   return DEPARTMENTS.find((d) => d.slug === slug);

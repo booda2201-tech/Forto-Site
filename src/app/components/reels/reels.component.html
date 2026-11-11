@@ -2,9 +2,9 @@
   <div class="reels-glow pointer-events-none absolute" aria-hidden="true"></div>
 
   <div class="relative mx-auto max-w-6xl px-6">
-    <header class="reels-head flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-      <div class="text-start">
-        <p class="section-kicker" data-aos="fade-up">فيديوهات القسم</p>
+    <header class="reels-head flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between" [class.is-solo]="solo">
+      <div [class.text-start]="!solo" [class.text-center]="solo">
+        <p class="section-kicker" [class.justify-center]="solo" data-aos="fade-up">{{ kicker }}</p>
         <h2 class="mt-5 t-h2 text-white">
           <span class="block overflow-hidden pb-4 pt-3 -mt-3">
             <span class="reels-title-inner block">{{ titleLead }} <span class="text-brand-gradient">{{ titleAccent }}</span> {{ titleTail }}</span>
@@ -16,7 +16,7 @@
   </div>
 
   <!-- Reel rail: full-bleed, drag / swipe to scroll -->
-  <div class="reel-track mt-16 flex gap-5 overflow-x-auto pb-10 sm:gap-7" data-cursor="اسحب">
+  <div class="reel-track mt-16 flex gap-5 overflow-x-auto pb-10 sm:gap-7" [class.is-solo]="solo" [attr.data-cursor]="solo ? null : 'اسحب'">
     @for (reel of reels; track reel.code; let i = $index) {
       <article
         class="reel-card relative aspect-[9/16] w-[15.5rem] flex-none overflow-hidden rounded-3xl sm:w-[17.5rem]"
@@ -48,16 +48,28 @@
       </article>
     }
 
-    <a [href]="instagram" target="_blank" rel="noopener noreferrer" class="reel-more flex-none" data-cursor="Instagram">
-      <span class="reel-more__ring">
-        <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="3" y="3" width="18" height="18" rx="5" />
-          <circle cx="12" cy="12" r="4" />
-          <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
-        </svg>
-      </span>
-      <span class="mt-5 text-base font-bold text-white">المزيد على إنستجرام</span>
-      <span class="mt-1 text-sm text-zinc-500" dir="ltr">&#64;forto.car.care</span>
-    </a>
+    @if (!solo) {
+      <a [href]="instagram" target="_blank" rel="noopener noreferrer" class="reel-more flex-none" data-cursor="Instagram">
+        <span class="reel-more__ring">
+          <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="mt-5 text-base font-bold text-white">المزيد على إنستجرام</span>
+        <span class="mt-1 text-sm text-zinc-500" dir="ltr">&#64;forto.car.care</span>
+      </a>
+    }
   </div>
+
+  <!-- A lone video is centred, with the Instagram link under it instead of a tile beside it -->
+  @if (solo) {
+    <div class="relative -mt-2 text-center">
+      <a [href]="instagram" target="_blank" rel="noopener noreferrer" class="btn-ghost inline-flex items-center gap-3" data-cursor="Instagram">
+        <span>المزيد على إنستجرام</span>
+        <span class="text-zinc-400" dir="ltr">&#64;forto.car.care</span>
+      </a>
+    </div>
+  }
 </section>

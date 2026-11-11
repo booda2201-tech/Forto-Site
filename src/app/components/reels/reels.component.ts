@@ -36,6 +36,13 @@ export class ReelsComponent implements AfterViewInit, OnDestroy {
   protected readonly instagram = SITE.social.instagram;
 
   @Input({ required: true }) reels: readonly Reel[] = [];
+  /** One video only: laid out centred instead of as a rail. */
+  protected get solo(): boolean {
+    return this.reels.length === 1;
+  }
+
+  /** Small label above the heading. */
+  @Input() kicker = 'فيديوهات القسم';
   /** Heading: plain lead + orange accent word. */
   @Input() titleLead = 'شاهد';
   @Input() titleAccent = 'الشغل';

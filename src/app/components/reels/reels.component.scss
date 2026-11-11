@@ -31,6 +31,20 @@
 }
 
 // Phones: a swipe settles with a card lined up on the page margin.
+/* A single video: centred, a little larger, nothing to drag. */
+.reels-head.is-solo {
+  justify-content: center;
+}
+
+.reel-track.is-solo {
+  justify-content: center;
+  cursor: default;
+
+  .reel-card {
+    width: min(21rem, 78vw);
+  }
+}
+
 @media (max-width: 767px) {
   .reel-track {
     scroll-snap-type: x mandatory;
