@@ -16,11 +16,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 /** One department of the Forto centre. Every department is named "Forto <name>". */
 interface Department {
-  /** Arabic display name, e.g. "فورتو كار كير". */
+  /** What the department does, in plain Arabic, e.g. "الغسيل والتلميع". */
   title: string;
   /** Latin brand name, e.g. "Forto Car Care". */
   subtitle: string;
-  /** What the department is, in plain words (the wash, the garage, …). */
+  /** Arabic brand name shown as the small tag above the title, e.g. "فورتو كار كير". */
   role: string;
   description: string;
   /** What is done in this department. */
@@ -48,18 +48,20 @@ export class ServicesComponent implements AfterViewInit, OnDestroy {
   private mm?: gsap.MatchMedia;
 
   protected readonly intro =
-    'فورتو مركز متكامل لخدمة سيارتك، وفيه ثلاثة أقسام: كار كير وسيرفيس وبروتكشن.';
+    'كل اللي عربيتك محتاجاه في مكان واحد: غسيل وتلميع، ميكانيكا وصيانة، وسمكرة ودهان وحماية.';
 
+  // The headline of each card says what the department does, in plain words.
+  // The brand name ("Forto Car Care", …) sits above it as a small tag.
   protected readonly departments: readonly Department[] = [
     {
-      title: 'فورتو كار كير',
+      title: 'الغسيل والتلميع',
       subtitle: 'Forto Car Care',
-      role: 'المغسلة',
-      description: 'عناية كاملة بنظافة سيارتك ولمعانها، من المحرك للجنوط للداخلية.',
+      role: 'فورتو كار كير',
+      description: 'عربيتك تطلع من عندنا نضيفة ولمّاعة، من المحرك للجنوط للداخلية.',
       items: [
-        'غسيل كيميائي كامل للمحرك والداخلية والجنوط',
+        'غسيل كيميائي كامل: محرك وداخلية وجنوط',
         'تلميع وإزالة الخدوش',
-        'إزالة بقايا الأسمنت والقطران',
+        'إزالة الأسمنت والقطران من الدهان',
       ],
       image: 'brand/detailing-coupe.jpg',
       focus: '40% 30%',
@@ -69,11 +71,11 @@ export class ServicesComponent implements AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'فورتو سيرفيس',
+      title: 'الميكانيكا والصيانة',
       subtitle: 'Forto Service',
-      role: 'الميكانيكا',
-      description: 'فحص وصيانة دقيقة لسيارتك بأيدي فنيين متخصصين.',
-      items: ['صيانة وفحص المحرك', 'العفشة ونظام التعليق'],
+      role: 'فورتو سيرفيس',
+      description: 'بنكشف على عربيتك ونصلّحها على إيد فنيين متخصصين.',
+      items: ['فحص وصيانة المحرك', 'العفشة ونظام التعليق'],
       image: 'brand/workshop.jpg',
       focus: '50% 38%',
       paths: [
@@ -81,14 +83,14 @@ export class ServicesComponent implements AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'فورتو بروتكشن',
+      title: 'السمكرة والحماية',
       subtitle: 'Forto Protection',
-      role: 'الحماية والدوكو',
-      description: 'نرجّع طلاء سيارتك لحالته، وبعدها نحميه بطبقة نانو سيراميك متقدمة.',
+      role: 'فورتو بروتكشن',
+      description: 'نرجّع دهان عربيتك زي الجديد، وبعدها نحميه بطبقة نانو سيراميك.',
       items: [
-        'نانو سيراميك: لمعان عميق ومقاومة يومية',
-        'السمكرة والدهان (الدوكو)',
+        'سمكرة ودهان (دوكو)',
         'من الحادث لحد التسليم',
+        'نانو سيراميك: لمعان عميق وحماية كل يوم',
       ],
       image: 'brand/paint-booth.jpg',
       focus: '50% 62%',

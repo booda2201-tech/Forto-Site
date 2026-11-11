@@ -34,20 +34,28 @@
       <span class="stage-total font-wordmark" aria-hidden="true">/ 03</span>
     </div>
 
-    <!-- Mobile / tablet: stacked cards -->
-    <div class="grid gap-6 sm:grid-cols-2 lg:hidden">
-      @for (zone of zones; track zone.label; let i = $index) {
-        <article class="glass-card overflow-hidden rounded-3xl" data-aos="fade-up" [attr.data-aos-delay]="i * 120">
-          <div class="aspect-[4/3] overflow-hidden">
-            <img [src]="zone.image" [alt]="zone.title" [style.object-position]="zone.focus" class="h-full w-full object-cover" loading="lazy" decoding="async" />
-          </div>
-          <div class="p-6 text-start">
-            <p class="font-wordmark text-xs font-medium uppercase tracking-[0.2em] text-brand-400 text-right" dir="ltr">{{ zone.label }}</p>
-            <h3 class="mt-2 text-xl font-extrabold text-white">{{ zone.title }}</h3>
-            <p class="mt-3 text-sm leading-loose text-zinc-400">{{ zone.description }}</p>
-          </div>
-        </article>
-      }
+    <!-- Mobile / tablet: swipeable photo cards, one at a time with the next one peeking -->
+    <div class="m-wrap lg:hidden" data-aos="fade-up">
+      <div class="m-rail">
+        @for (zone of zones; track zone.label; let i = $index) {
+          <article class="m-card">
+            <img [src]="zone.image" [alt]="zone.title" [style.object-position]="zone.focus" class="m-card__img" loading="lazy" decoding="async" />
+            <span class="m-card__shade" aria-hidden="true"></span>
+            <span class="m-card__num font-wordmark" aria-hidden="true">0{{ i + 1 }}<small>/ 0{{ zones.length }}</small></span>
+            <div class="m-card__body">
+              <p class="m-card__label font-wordmark" dir="ltr">{{ zone.label }}</p>
+              <h3 class="m-card__title">{{ zone.title }}</h3>
+              <p class="m-card__desc">{{ zone.description }}</p>
+            </div>
+          </article>
+        }
+      </div>
+
+      <div class="m-dots" role="tablist" aria-label="مناطق المركز">
+        @for (zone of zones; track zone.label; let i = $index) {
+          <button type="button" class="m-dot" role="tab" [attr.aria-label]="zone.title" (click)="goTo(i)"></button>
+        }
+      </div>
     </div>
   </div>
 </section>

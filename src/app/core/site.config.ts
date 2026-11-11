@@ -5,7 +5,7 @@
 export const SITE = {
   name: 'فورتو ',
   latinName: 'Forto',
-  descriptor: 'Car',
+  descriptor: 'Car Center',
   tagline: 'عناية تليق بـ سيارتك',
   description: 'أعلى معايير الجودة في الميكانيكا، السمكرة، والنانو سيراميك.',
 

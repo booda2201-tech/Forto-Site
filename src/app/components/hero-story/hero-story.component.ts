@@ -346,9 +346,10 @@ export class HeroStoryComponent implements AfterViewInit, OnDestroy {
       scrollTrigger: {
         trigger: root.querySelector('.hero-stage'),
         start: 'top top',
-        end: () => `+=${Math.round(total * 78)}%`,
+        // Phones: a shorter scroll for the same film, so the story moves along faster.
+        end: () => `+=${Math.round(total * (window.innerWidth < 768 ? 55 : 78))}%`,
         pin: true,
-        scrub: 0.6,
+        scrub: window.innerWidth < 768 ? 0.3 : 0.6,
         anticipatePin: 1,
         invalidateOnRefresh: true,
       },

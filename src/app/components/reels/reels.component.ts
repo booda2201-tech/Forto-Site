@@ -229,12 +229,16 @@ export class ReelsComponent implements AfterViewInit, OnDestroy {
       moved = false;
       startX = e.clientX;
       startScroll = track.scrollLeft;
-      track.classList.add('is-dragging');
     };
     const onMove = (e: PointerEvent): void => {
       if (!down) return;
       const dx = e.clientX - startX;
-      if (Math.abs(dx) > 4) moved = true;
+      // Only a real drag switches the rail to "dragging". Doing it on press would turn pointer
+      // events off for the cards mid-click, so the click never reached the sound button.
+      if (!moved && Math.abs(dx) > 4) {
+        moved = true;
+        track.classList.add('is-dragging');
+      }
       // scrollLeft grows rightwards in LTR but runs negative in RTL.
       const dir = getComputedStyle(track).direction === 'rtl' ? 1 : -1;
       track.scrollLeft = startScroll + dir * dx;

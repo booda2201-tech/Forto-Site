@@ -30,7 +30,8 @@ export class CursorComponent implements AfterViewInit, OnDestroy {
   private cleanup?: () => void;
 
   ngAfterViewInit(): void {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    // No custom cursor on touch devices or phone-sized screens (also when a desktop browser emulates one).
+    if (!window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 768px)').matches) {
       this.ring.nativeElement.remove();
       this.dot.nativeElement.remove();
       return;
