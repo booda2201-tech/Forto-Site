@@ -239,11 +239,13 @@ export class HeroStoryComponent implements AfterViewInit, OnDestroy {
         .to('.hud .cue, .hud .hud-phone', { autoAlpha: 1, duration: 1, stagger: 0.12 }, 1.5);
     });
 
-    /* ---- Pointer parallax on the wall (mouse only) ---- */
+    /* ---- Pointer parallax on the wall (mouse only, and only when several columns show) ----
+       With a single column (phones) sliding it sideways just uncovers a black strip at the edge. */
     if (window.matchMedia('(pointer: fine)').matches) {
       const xTo = cols.map((c) => gsap.quickTo(c, 'x', { duration: 1.2, ease: 'power3.out' }) as (v: number) => void);
       const onMove = (e: PointerEvent): void => {
-        const nx = e.clientX / window.innerWidth - 0.5;
+        const single = window.innerWidth < 768; // one column only: nothing to parallax
+        const nx = single ? 0 : e.clientX / window.innerWidth - 0.5;
         xTo.forEach((fn, i) => fn(nx * (i - 1) * -26));
       };
       window.addEventListener('pointermove', onMove, { passive: true });

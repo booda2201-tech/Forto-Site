@@ -41,3 +41,25 @@
   font-weight: 600;
   color: #a1a1aa;
 }
+
+// Phones: one tidy row per fact (label on the start side, number on the end side)
+// instead of three tall blocks.
+@media (max-width: 639px) {
+  .fact {
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.25rem;
+  }
+
+  .fact-value {
+    font-size: 2rem;
+  }
+
+  .fact-label {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #d4d4d8;
+  }
+}

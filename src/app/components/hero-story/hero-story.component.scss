@@ -9,6 +9,12 @@
 
 .hero-stage {
   position: relative;
+  // ScrollTrigger pins this box with a fixed pixel width measured at load. If the page
+  // scrollbar shows up afterwards (RTL puts it on the left) that width is 10px too wide:
+  // the stage then sticks out past the screen and the wordmark looks off-centre.
+  // Percent widths always follow the real visible width.
+  width: 100% !important;
+  max-width: 100% !important;
   height: 100svh;
   min-height: 34rem;
   overflow: hidden;
@@ -63,8 +69,12 @@
 .mask {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  // Flex (not grid) so the word stays centred even when it is wider than the screen:
+  // a grid track grows to fit and, in this RTL page, the overflow ends up on one side.
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  direction: ltr;
   padding-bottom: 27vh;
   pointer-events: none;
   background: #151515; // multiply: the wall peeks through at ~8% outside the letters
@@ -74,6 +84,7 @@
 .mask-word {
   position: relative;
   display: flex;
+  flex: none;
   direction: ltr;
   font-family: 'Barlow Condensed', 'Cairo', sans-serif;
   font-weight: 800;
@@ -84,8 +95,9 @@
   text-transform: uppercase;
   user-select: none;
 
+  // The word is ~2.6em wide: 35vw keeps it inside the screen with an even margin.
   @media (max-width: 767px) {
-    font-size: min(40vw, 30vh);
+    font-size: min(35vw, 30vh);
   }
 }
 
@@ -271,7 +283,7 @@
   }
 
   .mask-word {
-    font-size: min(38vw, 24vh);
+    font-size: min(35vw, 24vh);
   }
 
   .intro-copy {
@@ -407,6 +419,11 @@
     text-shadow:
       0 1px 3px rgba(0, 0, 0, 0.95),
       0 2px 18px rgba(0, 0, 0, 0.9);
+  }
+
+  // A 50px blurred shadow behind moving text is re-rasterised every frame: use a tighter one.
+  .cap-title {
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
   }
 
   .cap-sub {

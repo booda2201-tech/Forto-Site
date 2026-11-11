@@ -22,6 +22,21 @@ export class SmoothScrollService {
     ScrollTrigger.config({ ignoreMobileResize: true });
     if (this.reducedMotion || this.lenis) return;
 
+    // Phones / touch: native scrolling already has the right inertia. Layering Lenis' wheel
+    // smoothing on top of the scrubbed hero film is what made it feel laggy and "floaty".
+    if (window.matchMedia('(max-width: 767px), (pointer: coarse)').matches) {
+      document.addEventListener('click', (event) => {
+        const anchor = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
+        const hash = anchor?.getAttribute('href');
+        if (!anchor || !hash || hash.length < 2) return;
+        const target = document.querySelector<HTMLElement>(hash);
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      return;
+    }
+
     this.zone.runOutsideAngular(() => {
       const lenis = new Lenis({ lerp: 0.085, smoothWheel: true, anchors: false });
       this.lenis = lenis;

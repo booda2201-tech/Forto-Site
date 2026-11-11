@@ -38,6 +38,13 @@ section[id] {
   scroll-margin-top: 4rem;
 }
 
+// ScrollTrigger's pin wrapper for the hero gets a fixed pixel width at load; make it follow
+// the real visible width (a scrollbar that appears later would otherwise leave it too wide).
+.hero > .pin-spacer {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
 ::selection {
   background: rgba(247, 147, 30, 0.35);
   color: #fff;
