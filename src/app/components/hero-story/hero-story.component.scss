@@ -411,14 +411,20 @@
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.8);
 }
 
-// Phones: the video is brighter behind the copy, so give the small text more contrast.
+// Phones: the video is brighter behind the copy, so give the small text more contrast
+// (tight shadows: big blurred ones are re-rasterised every frame while the text moves).
 @media (max-width: 767px) {
   .cap-num,
   .cap-sub,
   .step {
     text-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.95),
-      0 2px 18px rgba(0, 0, 0, 0.9);
+      0 1px 2px rgba(0, 0, 0, 0.95),
+      0 1px 10px rgba(0, 0, 0, 0.85);
+  }
+
+  // The fortress outline redraws itself every frame; a 28px blur filter on it is costly.
+  .mark {
+    filter: drop-shadow(0 0 10px rgba(247, 147, 30, 0.7));
   }
 
   // A 50px blurred shadow behind moving text is re-rasterised every frame: use a tighter one.

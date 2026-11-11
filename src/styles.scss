@@ -17,7 +17,9 @@
 /*  Base                                                               */
 /* ------------------------------------------------------------------ */
 html {
-  scroll-behavior: smooth;
+  // No CSS smooth scrolling: it fights ScrollTrigger's pinned/scrubbed hero (scroll jumps animate
+  // and lag). Anchor links glide through JS (Lenis on desktop, scrollIntoView on phones).
+  scroll-behavior: auto;
   color-scheme: dark;
   -webkit-text-size-adjust: 100%;
 }

@@ -35,6 +35,17 @@
   }
 }
 
+// Phones: a swipe settles with a card lined up on the page margin.
+@media (max-width: 767px) {
+  .reel-track {
+    scroll-snap-type: x mandatory;
+  }
+
+  .reel-card {
+    scroll-snap-align: start;
+  }
+}
+
 .reel-card {
   background: #0e0e0e;
   border: 1px solid rgba(255, 255, 255, 0.1);
