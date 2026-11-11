@@ -47,7 +47,7 @@ export class GalleryComponent implements AfterViewInit, OnDestroy {
   protected readonly items: readonly GalleryItem[] = [
     {
       title: 'من الحادث للتسليم',
-      category: 'فورتو بروتكشن',
+      category: 'سمكرة ودهان',
       span: 'col-span-2 row-span-2',
       tone: 'a',
       image: 'brand/accident-to-done.jpg',
@@ -55,7 +55,7 @@ export class GalleryComponent implements AfterViewInit, OnDestroy {
     },
     {
       title: 'غرفة الدهان',
-      category: 'فورتو بروتكشن',
+      category: 'دهان وحماية',
       span: 'col-span-1',
       tone: 'b',
       image: 'brand/paint-booth.jpg',
@@ -63,7 +63,7 @@ export class GalleryComponent implements AfterViewInit, OnDestroy {
     },
     {
       title: 'تلميع وإزالة الخدوش',
-      category: 'فورتو كار كير',
+      category: 'غسيل وتلميع',
       span: 'col-span-1',
       tone: 'c',
       image: 'brand/detailing-coupe.jpg',
@@ -71,7 +71,7 @@ export class GalleryComponent implements AfterViewInit, OnDestroy {
     },
     {
       title: 'ورشة مجهّزة بالكامل',
-      category: 'فورتو سيرفيس',
+      category: 'ميكانيكا وصيانة',
       span: 'col-span-1',
       tone: 'd',
       image: 'brand/workshop.jpg',

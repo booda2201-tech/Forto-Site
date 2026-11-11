@@ -122,9 +122,9 @@ export class HeroStoryComponent implements AfterViewInit, OnDestroy {
   ];
 
   protected readonly steps: readonly Step[] = [
-    { num: '01', title: 'كار كير: غسيل وتلميع' },
-    { num: '02', title: 'سيرفيس: ميكانيكا وعفشة' },
-    { num: '03', title: 'بروتكشن: سمكرة ودهان ونانو سيراميك' },
+    { num: '01', title: 'غسيل وتلميع' },
+    { num: '02', title: 'ميكانيكا وعفشة وصيانة' },
+    { num: '03', title: 'سمكرة ودهان ونانو سيراميك' },
   ];
 
   ngAfterViewInit(): void {

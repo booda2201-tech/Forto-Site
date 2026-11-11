@@ -29,9 +29,9 @@ export class FooterComponent implements AfterViewInit, OnDestroy {
   protected readonly site = SITE;
   protected readonly brand = SITE.name.trim();
   protected readonly departments = [
-    { name: 'فورتو كار كير', latin: 'Forto Car Care' },
-    { name: 'فورتو سيرفيس', latin: 'Forto Service' },
-    { name: 'فورتو بروتكشن', latin: 'Forto Protection' },
+    { name: 'الغسيل والتلميع', latin: 'Forto Car Care' },
+    { name: 'الميكانيكا والصيانة', latin: 'Forto Service' },
+    { name: 'السمكرة والحماية', latin: 'Forto Protection' },
   ] as const;
   protected readonly links = NAV_LINKS;
   protected readonly whatsapp = whatsappLink();
