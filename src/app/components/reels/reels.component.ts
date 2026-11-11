@@ -56,7 +56,7 @@ export class ReelsComponent implements AfterViewInit, OnDestroy {
     { code: 'DfU20ZosxTV', title: 'داخل غرفة الدهان', views: '111K', poster: 'brand/reels/DfU20ZosxTV.jpg', video: 'brand/reels/DfU20ZosxTV.mp4' },
     { code: 'DUkvIOhjvh1', title: 'أمام المركز', views: '104K', poster: 'brand/reels/DUkvIOhjvh1.jpg', video: 'brand/reels/DUkvIOhjvh1.mp4' },
     { code: 'DfNFLvHCG3s', title: 'ورشة فورتو من الداخل', views: '102K', poster: 'brand/reels/DfNFLvHCG3s.jpg', video: 'brand/reels/DfNFLvHCG3s.mp4' },
-    { code: 'Dew3IJYij8h', title: 'فريق فورتو', views: '55.7K', poster: 'brand/reels/Dew3IJYij8h.jpg', video: 'brand/reels/Dew3IJYij8h.mp4' },
+    { code: 'DfXR7lvxPVW', title: 'عربيتك بلونك', views: '1.1K', poster: 'brand/reels/DfXR7lvxPVW.jpg', video: 'brand/reels/DfXR7lvxPVW.mp4' },
   ];
 
   protected readonly stats: readonly Stat[] = [
