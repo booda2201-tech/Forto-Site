@@ -1,41 +1,25 @@
-﻿<section id="gallery" class="relative py-20 sm:py-28">
+﻿<section class="relative py-12 sm:py-20">
   <div class="mx-auto max-w-6xl px-6">
-    <header class="gallery-head flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-      <div class="text-start">
-        <p class="section-kicker" data-aos="fade-up"><span>04</span> معرض الأعمال</p>
-        <h2 class="mt-5 t-h2 text-white">
-          <span class="block overflow-hidden pb-4 pt-3 -mt-3">
-            <span class="gallery-title-inner block">لقطات من <span class="text-brand-gradient">فورتو</span></span>
-          </span>
-        </h2>
-      </div>
-      <a [href]="instagram" target="_blank" rel="noopener noreferrer" class="btn-ghost self-start sm:self-auto">
-        تابعنا على إنستجرام
-      </a>
+    <header class="gallery-head text-start">
+      <p class="section-kicker" data-aos="fade-up">{{ kicker }}</p>
+      <h2 class="mt-5 t-h2 text-white">
+        <span class="block overflow-hidden pb-4 pt-3 -mt-3">
+          <span class="gallery-title-inner block">{{ titleLead }} <span class="text-brand-gradient">{{ titleAccent }}</span></span>
+        </span>
+      </h2>
     </header>
 
-    <div class="gallery-grid mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
-      @for (item of items; track item.title; let i = $index) {
-        <figure
-          class="gallery-tile glass-card group relative overflow-hidden rounded-3xl"
-          [class]="item.span"
-          [attr.data-tone]="item.tone"
-          data-aos="zoom-in"
-          [attr.data-aos-delay]="i * 100"
-        >
-          @if (item.image) {
-            <img
-              [src]="item.image"
-              [alt]="item.title"
-              [style.object-position]="item.focus"
-              loading="lazy"
-              decoding="async"
-              class="tile-img absolute inset-0 h-full w-full object-cover"
-            />
-          } @else {
-            <div class="tile-art" aria-hidden="true"></div>
-          }
-
+    <div class="gallery-grid mt-8 grid gap-4 sm:mt-12">
+      @for (item of items; track item.image; let i = $index) {
+        <figure class="gallery-tile glass-card group relative overflow-hidden rounded-3xl" data-aos="zoom-in" [attr.data-aos-delay]="i * 100">
+          <img
+            [src]="item.image"
+            [alt]="item.title"
+            [style.object-position]="item.focus"
+            loading="lazy"
+            decoding="async"
+            class="tile-img absolute inset-0 h-full w-full object-cover"
+          />
           <figcaption class="tile-caption absolute inset-x-0 bottom-0 p-5 text-start">
             <span class="block text-xs font-semibold text-brand-300">{{ item.category }}</span>
             <span class="mt-1 block text-base font-bold text-white">{{ item.title }}</span>

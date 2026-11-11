@@ -51,14 +51,6 @@
   object-fit: cover;
 }
 
-.dim {
-  position: absolute;
-  inset: 0;
-  background: #050505;
-  opacity: 0;
-  pointer-events: none;
-}
-
 @media (max-width: 767px) {
   .wall-col:nth-child(n + 2) {
     display: none;
@@ -159,26 +151,6 @@
   inset: 0;
   pointer-events: none;
   background: radial-gradient(ellipse 85% 75% at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.65) 100%);
-}
-
-.mark {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: min(52vh, 70vw);
-  height: min(52vh, 70vw);
-  opacity: 0;
-  pointer-events: none;
-  filter: drop-shadow(0 0 28px rgba(247, 147, 30, 0.7));
-}
-
-.mark-path {
-  fill: rgba(247, 147, 30, 0);
-  stroke: #f7931e;
-  stroke-width: 2.4;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
 }
 
 /* ---------- Shared line mask ---------- */
@@ -287,7 +259,7 @@
   }
 
   .intro-copy {
-    padding-bottom: 3.2rem;
+    padding-bottom: 4.6rem;
   }
 
   .intro-copy .intro-cta {
@@ -355,168 +327,6 @@
   }
 }
 
-/* ---------- 4. Chapters ---------- */
-.caps {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: grid;
-  align-items: end;
-  padding: 0 clamp(1.5rem, 6vw, 6rem) clamp(6.5rem, 15vh, 9rem);
-  pointer-events: none;
-}
-
-.cap {
-  grid-area: 1 / 1;
-  max-width: 44rem;
-  visibility: hidden;
-
-  a {
-    pointer-events: auto;
-  }
-}
-
-.cap-num {
-  display: flex;
-  width: fit-content;
-  margin-left: auto; // block is dir=ltr inside an RTL column: push it to the start (right)
-  align-items: baseline;
-  gap: 0.6rem;
-  margin-block: 0 0.6rem;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #a1a1aa;
-
-  b {
-    font-size: 1.6rem;
-    font-style: italic;
-    color: var(--brand);
-  }
-
-  span {
-    font-size: 1rem;
-  }
-
-  i {
-    margin-inline-start: 0.8rem;
-    padding: 0.15rem 0.6rem;
-    font-size: 0.8rem;
-    font-style: normal;
-    text-transform: uppercase;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-  }
-}
-
-.cap-title {
-  margin: 0;
-  font-weight: 800;
-  line-height: 1.12;
-  font-size: clamp(1.9rem, 4vw, 3.2rem);
-  color: #fff;
-  text-shadow: 0 6px 50px rgba(0, 0, 0, 0.55);
-}
-
-.cap-sub {
-  margin: 0.6rem 0 0;
-  max-width: 32rem;
-  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
-  line-height: 1.9;
-  color: #e4e4e7;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.8);
-}
-
-// Phones: the video is brighter behind the copy, so give the small text more contrast
-// (tight shadows: big blurred ones are re-rasterised every frame while the text moves).
-@media (max-width: 767px) {
-  .cap-num,
-  .cap-sub,
-  .step {
-    text-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.95),
-      0 1px 10px rgba(0, 0, 0, 0.85);
-  }
-
-  // The fortress outline redraws itself every frame; a 28px blur filter on it is costly.
-  .mark {
-    filter: drop-shadow(0 0 10px rgba(247, 147, 30, 0.7));
-  }
-
-  // A 50px blurred shadow behind moving text is re-rasterised every frame: use a tighter one.
-  .cap-title {
-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
-  }
-
-  .cap-sub {
-    color: #fff;
-    font-size: 0.95rem;
-  }
-
-  .step {
-    font-size: 0.92rem;
-  }
-
-  .cap-num span {
-    color: #d4d4d8;
-  }
-}
-
-.steps {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-  margin: 1.1rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.step {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  font-weight: 800;
-  color: #fff;
-  opacity: 0.28;
-
-  &-num {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-style: italic;
-    color: var(--brand);
-  }
-}
-
-.cap-cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-  margin-top: 1.8rem;
-
-  @media (max-width: 480px) {
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    gap: 0.55rem;
-    margin-top: 1.3rem;
-
-    .btn-brand,
-    .btn-ghost {
-      flex: 0 1 auto;
-      white-space: nowrap;
-      padding: 0.75rem 1rem;
-      font-size: 0.88rem;
-      gap: 0.4rem;
-    }
-
-    .btn-brand svg {
-      width: 1rem;
-      height: 1rem;
-    }
-  }
-}
-
 /* ---------- 5. HUD ---------- */
 .hud {
   position: absolute;
@@ -527,57 +337,12 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 1.5rem;
-  padding: 0 clamp(1.5rem, 6vw, 6rem) 1.5rem;
+  padding: 0 clamp(1rem, 6vw, 6rem) 1.25rem;
   pointer-events: none;
 
   a {
     pointer-events: auto;
   }
-}
-
-.prog {
-  position: absolute;
-  inset-inline-start: clamp(1.5rem, 6vw, 6rem);
-  bottom: 1.5rem;
-  display: flex;
-  gap: 0.6rem;
-  width: min(28rem, 60vw);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  opacity: 0;
-}
-
-.prog-item {
-  --fill: 0;
-  flex: 1;
-  color: #71717a;
-  transition: color 0.3s ease;
-
-  &.is-active {
-    color: #fff;
-  }
-}
-
-.prog-bar {
-  display: block;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.prog-fill {
-  display: block;
-  height: 100%;
-  background: var(--brand);
-  transform: scaleX(var(--fill));
-  transform-origin: right;
-}
-
-.prog-label {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.78rem;
-  font-weight: 700;
 }
 
 .cue {
@@ -606,11 +371,6 @@
   }
 }
 
-:host(.is-scrolled) .cue {
-  opacity: 0 !important; // beats the intro's inline opacity
-  pointer-events: none;
-}
-
 .cue-line {
   position: relative;
   display: block;
@@ -636,31 +396,47 @@
   }
 }
 
-.hud-phone {
-  position: absolute;
-  left: clamp(1.5rem, 6vw, 6rem); // physical: the link is dir=ltr
-  bottom: 1.5rem;
-  font-size: 0.9rem;
+// Address and phone: small pills along the bottom edge, one tap from the map / the dialer.
+.hud-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.86rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #d4d4d8;
-  transition: color 0.3s ease;
+  color: #e4e4e7;
+  background: rgba(10, 10, 10, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+
+  svg {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    color: var(--brand);
+  }
 
   &:hover {
-    color: var(--brand-light, #ffa640);
+    color: #fff;
+    border-color: rgba(247, 147, 30, 0.7);
   }
 
   @media (max-width: 767px) {
-    display: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.78rem;
   }
+}
+
+.hud-phone {
+  letter-spacing: 0.08em;
 }
 
 /* ---------- Reduced motion: a still composition ---------- */
 :host(.is-static) {
   .mask,
-  .caps,
-  .mark,
-  .prog,
   .cue {
     display: none;
   }

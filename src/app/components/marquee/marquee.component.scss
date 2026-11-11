@@ -29,7 +29,11 @@
     color: #f4f4f5;
   }
 
+  // Arabic letters hang well below the baseline (ي، ع، ل ...); the row clips overflow,
+  // so the line box needs room for them or the bottoms get cut off.
   &--outline {
+    padding-block: 0.12em 0.3em;
+    line-height: 1.7;
     color: transparent;
     -webkit-text-stroke: 1.5px rgba(247, 147, 30, 0.75);
   }

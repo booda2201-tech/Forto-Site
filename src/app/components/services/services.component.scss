@@ -139,6 +139,24 @@
   box-shadow: 0 0 10px rgba(247, 147, 30, 0.8);
 }
 
+// "تفاصيل القسم →": the whole card is the link, this just says so.
+.service-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--brand-light);
+  transition:
+    gap 0.4s ease,
+    color 0.3s ease;
+}
+
+.service-card:hover .service-more {
+  gap: 0.85rem;
+  color: #fff;
+}
+
 .service-line {
   position: absolute;
   inset-inline: 0;

@@ -56,7 +56,7 @@ export class CenterComponent implements AfterViewInit, OnDestroy {
     {
       label: 'Accessories & Lounge',
       title: 'إكسسوارات ولاونج',
-      description: 'إكسسوارات للسيارة ومساحة استقبال مريحة، كل شيء في مكان واحد على الدائري.',
+      description: 'إكسسوارات للسيارة ومساحة استقبال مريحة، على الطريق الدائري.',
       image: 'brand/place-aerial.jpg',
       focus: '50% 50%',
     },
@@ -117,7 +117,6 @@ export class CenterComponent implements AfterViewInit, OnDestroy {
             end: `+=${(slides.length - 1) * 85}%`,
             pin: true,
             scrub: 0.6,
-            anticipatePin: 1,
             onUpdate: (self) => {
               if (fill) fill.style.transform = `scaleY(${self.progress})`;
               setActive(Math.min(slides.length - 1, Math.round(self.progress * (slides.length - 1))));

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Input,
   NgZone,
   OnDestroy,
   inject,
@@ -30,7 +31,8 @@ export class CtaComponent implements AfterViewInit, OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private mm?: gsap.MatchMedia;
 
-  protected readonly bookingUrl = whatsappLink();
+  /** WhatsApp link; department pages pass one that names the department. */
+  @Input() bookingUrl = whatsappLink();
   protected readonly phone = SITE.phoneDisplay;
   protected readonly phoneHref = SITE.phoneHref;
   protected readonly address = SITE.address;

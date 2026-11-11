@@ -28,16 +28,21 @@ export const SITE = {
 
 export interface NavLink {
   label: string;
-  href: string;
+  /** Used by the scroll-spy to mark the link that matches the current page / section. */
+  key: string;
+  /** Page to open. Left out for in-page links, which stay on the page you are reading. */
+  route?: string;
+  /** Section of the page to scroll to. */
+  fragment?: string;
 }
 
+/** Each department is its own page; "العنوان والتواصل" scrolls to the map and phone on any page. */
 export const NAV_LINKS: readonly NavLink[] = [
-  { label: 'الرئيسية', href: '#home' },
-  { label: 'خدماتنا', href: '#services' },
-  { label: 'المركز', href: '#center' },
-  { label: 'الفيديوهات', href: '#reels' },
-  { label: 'معرض الأعمال', href: '#gallery' },
-  { label: 'تواصل معنا', href: '#contact' },
+  { label: 'الرئيسية', key: 'home', route: '/' },
+  { label: 'الغسيل والتلميع', key: 'car-care', route: '/car-care' },
+  { label: 'الميكانيكا والصيانة', key: 'service', route: '/service' },
+  { label: 'السمكرة والحماية', key: 'protection', route: '/protection' },
+  { label: 'العنوان والتواصل', key: 'contact', fragment: 'contact' },
 ];
 
 /** Builds a click-to-chat link using the WhatsApp (wa.me) API. */

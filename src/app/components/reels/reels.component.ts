@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Input,
   NgZone,
   OnDestroy,
   inject,
@@ -10,28 +11,12 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { Reel } from '../../core/departments';
 import { SITE } from '../../core/site.config';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Reel {
-  /** Instagram shortcode, from instagram.com/reel/<code>. */
-  code: string;
-  title: string;
-  /** View count as displayed on Instagram (snapshot). */
-  views: string;
-  poster: string;
-  /** Self-hosted clip (public/brand/reels). */
-  video: string;
-}
-
-interface Stat {
-  value: number;
-  decimals: number;
-  suffix: string;
-  label: string;
-}
-
+/** A rail of the department's own Instagram reels (sound on tap, one at a time). */
 @Component({
   selector: 'app-reels',
   standalone: true,
@@ -50,20 +35,11 @@ export class ReelsComponent implements AfterViewInit, OnDestroy {
 
   protected readonly instagram = SITE.social.instagram;
 
-  // Real reels from instagram.com/forto.car.care – view counts are a snapshot.
-  protected readonly reels: readonly Reel[] = [
-    { code: 'DUiIG4mCKLx', title: 'إعلان افتتاح فورتو', views: '733K', poster: 'brand/reels/DUiIG4mCKLx.jpg', video: 'brand/reels/DUiIG4mCKLx.mp4' },
-    { code: 'DfU20ZosxTV', title: 'داخل غرفة الدهان', views: '111K', poster: 'brand/reels/DfU20ZosxTV.jpg', video: 'brand/reels/DfU20ZosxTV.mp4' },
-    { code: 'DUkvIOhjvh1', title: 'أمام المركز', views: '104K', poster: 'brand/reels/DUkvIOhjvh1.jpg', video: 'brand/reels/DUkvIOhjvh1.mp4' },
-    { code: 'DfNFLvHCG3s', title: 'ورشة فورتو من الداخل', views: '102K', poster: 'brand/reels/DfNFLvHCG3s.jpg', video: 'brand/reels/DfNFLvHCG3s.mp4' },
-    { code: 'DfXR7lvxPVW', title: 'عربيتك بلونك', views: '1.1K', poster: 'brand/reels/DfXR7lvxPVW.jpg', video: 'brand/reels/DfXR7lvxPVW.mp4' },
-  ];
-
-  protected readonly stats: readonly Stat[] = [
-    { value: 15.3, decimals: 1, suffix: 'K', label: 'متابع على إنستجرام' },
-    { value: 5.6, decimals: 1, suffix: 'K', label: 'متابع على فيسبوك' },
-    { value: 733, decimals: 0, suffix: 'K', label: 'مشاهدة لأقوى ريل' },
-  ];
+  @Input({ required: true }) reels: readonly Reel[] = [];
+  /** Heading: plain lead + orange accent word. */
+  @Input() titleLead = 'شاهد';
+  @Input() titleAccent = 'الشغل';
+  @Input() titleTail = 'بنفسك';
 
   ngAfterViewInit(): void {
     this.zone.runOutsideAngular(() => {
@@ -78,21 +54,6 @@ export class ReelsComponent implements AfterViewInit, OnDestroy {
           duration: 1.5,
           ease: 'expo.out',
           scrollTrigger: { trigger: '.reels-head', start: 'top 80%', once: true },
-        });
-
-        // Count-up for the social proof numbers.
-        gsap.utils.toArray<HTMLElement>('.stat-value', root).forEach((el) => {
-          const to = Number(el.dataset['to']);
-          const decimals = Number(el.dataset['decimals']);
-          const counter = { v: 0 };
-          el.textContent = (0).toFixed(decimals);
-          gsap.to(counter, {
-            v: to,
-            duration: 2.2,
-            ease: 'power3.out',
-            onUpdate: () => (el.textContent = counter.v.toFixed(decimals)),
-            scrollTrigger: { trigger: el, start: 'top 90%', once: true },
-          });
         });
 
         // Gentle parallax on the reel cards.

@@ -58,6 +58,29 @@ export class SmoothScrollService {
     });
   }
 
+  /**
+   * Scrolls to a CSS selector or to a Y position, gliding unless `immediate` is set.
+   * Works with or without Lenis (phones and reduced-motion use the browser's own scrolling).
+   */
+  scrollTo(target: string | number, immediate = false): void {
+    const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : null;
+    if (typeof target === 'string' && !el) return;
+
+    if (this.lenis) {
+      const to = el ?? (target as number);
+      this.lenis.scrollTo(
+        to,
+        immediate
+          ? { immediate: true, force: true }
+          : { duration: 1.6, easing: (t: number) => 1 - Math.pow(1 - t, 4) },
+      );
+      return;
+    }
+    const behavior: ScrollBehavior = immediate ? 'auto' : 'smooth';
+    if (el) el.scrollIntoView({ behavior, block: 'start' });
+    else window.scrollTo({ top: target as number, behavior });
+  }
+
   stop(): void {
     this.lenis?.stop();
   }

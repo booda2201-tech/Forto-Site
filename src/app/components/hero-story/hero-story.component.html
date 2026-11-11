@@ -5,7 +5,6 @@
       @for (w of wall; track w.src; let i = $index) {
         <div class="wall-col wall-col-{{ i + 1 }}">
           <video class="wall-vid" [attr.data-src]="w.src" [attr.poster]="w.poster" loop playsinline preload="auto"></video>
-          <span class="dim"></span>
         </div>
       }
     </div>
@@ -25,11 +24,6 @@
 
     <span class="shade" aria-hidden="true"></span>
     <span class="grain" aria-hidden="true"></span>
-
-    <!-- Fortress mark (chapter 2) -->
-    <svg class="mark" [attr.viewBox]="shieldViewBox" aria-hidden="true">
-      <path class="mark-path" pathLength="1" [attr.d]="shieldPath" />
-    </svg>
 
     <!-- 3. Landing copy (exact brand headline) -->
     <div class="intro-copy">
@@ -53,60 +47,31 @@
           احجز موعدك الآن
           <svg class="h-5 w-5 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </a>
-        <a href="#services" class="btn-ghost text-base">خدماتنا</a>
+        <a href="#services" class="btn-ghost text-base">أقسامنا</a>
       </div>
     </div>
 
-    <!-- 4. Chapters that play over the open wall -->
-    <div class="caps">
-      @for (c of chapters; track c.tag; let i = $index) {
-        <article class="cap cap-{{ i + 1 }}">
-          <p class="cap-num" dir="ltr"><b>0{{ i + 1 }}</b><span>/ 04</span><i>{{ c.hud }}</i></p>
-          <p class="cap-title" role="presentation">
-            @for (line of c.lines; track line; let li = $index) {
-              <span class="ln"><span class="ln-in" [class.is-accent]="li === c.accent">{{ line }}</span></span>
-            }
-          </p>
-          <p class="cap-sub">{{ c.sub }}</p>
-
-          @if (i === 2) {
-            <ol class="steps">
-              @for (s of steps; track s.num) {
-                <li class="step"><span class="step-num" dir="ltr">{{ s.num }}</span><span>{{ s.title }}</span></li>
-              }
-            </ol>
-          }
-
-          @if (i === 3) {
-            <div class="cap-cta">
-              <a [href]="bookingUrl" [appMagnetic]="0.25" target="_blank" rel="noopener noreferrer" class="btn-brand text-base" data-cursor="احجز">
-                احجز موعدك الآن
-                <svg class="h-5 w-5 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-              </a>
-              <a href="#services" class="btn-ghost text-base">خدماتنا</a>
-            </div>
-          }
-        </article>
-      }
-    </div>
-
-    <!-- 5. HUD -->
+    <!-- 4. Address and phone, always in reach -->
     <div class="hud">
-      <ol class="prog" aria-hidden="true">
-        @for (c of chapters; track c.tag; let i = $index) {
-          <li class="prog-item" [class.is-active]="i === 0">
-            <span class="prog-bar"><span class="prog-fill"></span></span>
-            <span class="prog-label">{{ c.tag }}</span>
-          </li>
-        }
-      </ol>
-
-      <a href="#services" class="cue" aria-label="اسحب لتكمل الحكاية">
-        <span class="cue-line"></span>
-        اسحب لتكمل الحكاية
+      <a [href]="mapsUrl" target="_blank" rel="noopener noreferrer" class="hud-item hud-address" aria-label="افتح العنوان على خرائط جوجل">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        <span>الطريق الدائري، الهرم</span>
       </a>
 
-      <a [href]="phoneHref" class="hud-phone" dir="ltr">{{ phone }}</a>
+      <a href="#services" class="cue" aria-label="أقسام فورتو">
+        <span class="cue-line"></span>
+        أقسامنا
+      </a>
+
+      <a [href]="phoneHref" class="hud-item hud-phone" dir="ltr">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+        </svg>
+        <span>{{ phone }}</span>
+      </a>
     </div>
   </div>
 </section>

@@ -7,7 +7,7 @@
     aria-label="التنقل الرئيسي"
   >
     <!-- Brand -->
-    <a href="#home" class="brand flex items-center gap-3" (click)="closeMenu()" aria-label="فورتو - الرئيسية">
+    <a routerLink="/" class="brand flex items-center gap-3" (click)="closeMenu()" aria-label="فورتو - الرئيسية">
       <img class="brand-mark" src="brand/logo.jpg" alt="" width="44" height="44" />
       <span class="flex flex-col leading-tight">
         <span class="text-brand-gradient text-lg font-extrabold">{{ brand }}</span>
@@ -19,13 +19,14 @@
 
     <!-- Desktop links -->
     <ul class="nav-links">
-      @for (link of links; track link.href) {
+      @for (link of links; track link.key) {
         <li>
           <a
-            [href]="link.href"
+            [routerLink]="link.route ?? path()"
+            [fragment]="link.fragment"
             class="nav-link"
-            [class.is-active]="active() === link.href"
-            [attr.aria-current]="active() === link.href ? 'true' : null"
+            [class.is-active]="active() === link.key"
+            [attr.aria-current]="active() === link.key ? 'true' : null"
           >
             {{ link.label }}
           </a>
@@ -66,13 +67,14 @@
   @if (menuOpen()) {
     <div id="mobile-menu" class="mobile-menu mx-auto mt-2 max-w-6xl rounded-2xl p-3">
       <ul class="flex flex-col">
-        @for (link of links; track link.href; let i = $index) {
+        @for (link of links; track link.key; let i = $index) {
           <li>
             <a
-              [href]="link.href"
+              [routerLink]="link.route ?? path()"
+              [fragment]="link.fragment"
               (click)="closeMenu()"
               class="mobile-link"
-              [class.is-active]="active() === link.href"
+              [class.is-active]="active() === link.key"
               [style.animation-delay.ms]="i * 45"
             >
               <span class="mobile-link-num" aria-hidden="true">0{{ i + 1 }}</span>

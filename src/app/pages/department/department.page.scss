@@ -1,0 +1,294 @@
+.dept-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(60% 70% at 85% 30%, rgba(247, 147, 30, 0.14), transparent 70%), #0a0a0a;
+}
+
+// The photo, blown up and blurred: just a tint of the department behind the content.
+.dept-hero__ambient {
+  position: absolute;
+  inset: -10%;
+  z-index: -2;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  opacity: 0.32;
+  filter: blur(46px) saturate(1.2);
+}
+
+.dept-hero__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgba(10, 10, 10, 0.55), rgba(10, 10, 10, 0.9));
+}
+
+.dept-hero__grid {
+  display: grid;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 6.5rem;
+  padding-bottom: 2.5rem;
+
+  @media (min-width: 640px) {
+    gap: 2.5rem;
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 4rem;
+    min-height: min(42rem, 90svh);
+  }
+}
+
+.dept-hero__body {
+  text-align: start;
+}
+
+.dept-hero__card {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 22rem);
+  // A wide banner on phones (the page is already long); the portrait card from tablets up.
+  aspect-ratio: 16 / 11;
+
+  @media (min-width: 640px) {
+    aspect-ratio: 4 / 5;
+  }
+
+  margin: 0;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 40px 90px -30px rgba(0, 0, 0, 0.9),
+    0 0 80px -30px rgba(247, 147, 30, 0.5);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (min-width: 1024px) {
+    justify-self: end;
+    width: min(100%, 26rem);
+  }
+}
+
+// Two equal-height buttons on one line on phones: the labels never wrap.
+.dept-actions {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 0.6rem;
+
+  .btn-brand,
+  .btn-ghost {
+    padding: 0.9rem 0.5rem;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 359px) {
+    .btn-brand,
+    .btn-ghost {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (min-width: 640px) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+
+    .btn-brand,
+    .btn-ghost {
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+.dept-back {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.6rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #d4d4d8;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--brand);
+  }
+}
+
+.dept-role {
+  display: inline-block;
+  margin-inline-start: 0.2rem;
+  padding: 0.2rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--brand-light);
+  background: rgba(247, 147, 30, 0.12);
+  border: 1px solid rgba(247, 147, 30, 0.4);
+  border-radius: 9999px;
+}
+
+.dept-address {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.6rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #d4d4d8;
+  transition: color 0.3s ease;
+
+  svg {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--brand);
+  }
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+/* ---------- Contact facts ---------- */
+.dept-contact {
+  position: relative;
+  padding-block: 1.5rem 0;
+}
+
+.dept-fact {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.7rem;
+  row-gap: 0.1rem;
+  align-items: center;
+  padding: 0.85rem 0.9rem;
+  transition:
+    border-color 0.4s ease,
+    transform 0.4s ease;
+
+  @media (min-width: 640px) {
+    padding: 1.1rem 1.2rem;
+  }
+
+  &:hover {
+    border-color: rgba(247, 147, 30, 0.5);
+    transform: translateY(-3px);
+  }
+}
+
+.dept-fact__icon {
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  color: var(--brand);
+  background: rgba(247, 147, 30, 0.1);
+  border: 1px solid rgba(247, 147, 30, 0.35);
+  border-radius: 0.85rem;
+
+  svg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+}
+
+.dept-fact__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #a1a1aa;
+}
+
+.dept-fact__value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #fff;
+}
+
+/* ---------- Services ---------- */
+.dept-service {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  transition: border-color 0.4s ease;
+
+  &:hover {
+    border-color: rgba(247, 147, 30, 0.5);
+  }
+}
+
+.dept-service__num,
+.dept-step__num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.2rem;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--brand);
+}
+
+/* ---------- How to book ---------- */
+.dept-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 1.1rem;
+  row-gap: 0.15rem;
+  padding: 1rem 1.2rem;
+
+  .dept-step__num {
+    grid-row: 1 / span 2;
+    min-width: 2.4rem;
+  }
+
+  // Cards side by side from tablets up: number on top, text below.
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    padding: 1.5rem;
+  }
+}
+
+/* ---------- Other departments ---------- */
+.dept-other {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.2rem;
+  transition:
+    border-color 0.4s ease,
+    transform 0.4s ease;
+
+  &:hover {
+    border-color: rgba(247, 147, 30, 0.5);
+    transform: translateY(-3px);
+  }
+}
+
+.dept-other__brand {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-align: right;
+  text-transform: uppercase;
+  color: rgba(255, 164, 56, 0.9);
+}

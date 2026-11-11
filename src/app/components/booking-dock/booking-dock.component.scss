@@ -1,0 +1,206 @@
+:host {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  padding: 0 0.9rem calc(0.9rem + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+
+.dock {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: min(100%, 26rem);
+  padding: 0.45rem;
+  background: rgba(14, 14, 16, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  box-shadow:
+    0 18px 50px -12px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(247, 147, 30, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+  opacity: 0;
+  transform: translateY(160%) scale(0.96);
+  transition:
+    transform 0.7s cubic-bezier(0.2, 0.9, 0.25, 1),
+    opacity 0.45s ease;
+  pointer-events: none;
+
+  &.is-on {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* The main action: fills the bar, with a light that sweeps across it. */
+.dock__book {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.55rem 1rem 0.55rem 0.75rem;
+  overflow: hidden;
+  color: #1a1004;
+  background: linear-gradient(120deg, #ffb347, #f7931e 55%, #e8780a);
+  border-radius: 999px;
+  box-shadow: 0 8px 22px -8px rgba(247, 147, 30, 0.9);
+  transition: transform 0.3s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: -40%;
+    width: 30%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    transform: skewX(-20deg);
+    animation: dock-sweep 4.2s ease-in-out 1.2s infinite;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.dock__icon {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #f7931e;
+  background: #120c04;
+  border-radius: 50%;
+
+  svg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  /* A soft ring that keeps pulsing outward. */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid #120c04;
+    animation: dock-ping 2.4s ease-out infinite;
+  }
+}
+
+.dock__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+  text-align: start;
+
+  strong {
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  small {
+    overflow: hidden;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    opacity: 0.72;
+  }
+}
+
+.dock__arrow {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-inline-start: auto;
+  transition: transform 0.3s ease;
+}
+
+.dock__book:hover .dock__arrow {
+  transform: translateX(-4px);
+}
+
+.dock__btn {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 3.1rem;
+  height: 3.1rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+
+  svg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  &:hover {
+    color: #f7931e;
+    border-color: rgba(247, 147, 30, 0.6);
+  }
+
+  &:active {
+    background: rgba(247, 147, 30, 0.2);
+  }
+}
+
+@keyframes dock-sweep {
+  0% {
+    inset-inline-start: -40%;
+  }
+  45%,
+  100% {
+    inset-inline-start: 140%;
+  }
+}
+
+@keyframes dock-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  :host {
+    padding-bottom: 1.4rem;
+  }
+
+  .dock {
+    width: 24rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock {
+    transition: opacity 0.2s ease;
+    transform: none;
+  }
+
+  .dock__book::after,
+  .dock__icon::before {
+    animation: none;
+  }
+}

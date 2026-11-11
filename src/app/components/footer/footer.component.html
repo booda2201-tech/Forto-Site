@@ -1,10 +1,10 @@
-<footer id="contact" class="footer relative overflow-hidden px-4 pt-16 sm:px-6">
+<footer class="footer relative overflow-hidden px-4 pt-16 sm:px-6">
   <div #card class="footer-card relative mx-auto max-w-6xl">
     <div class="footer-divider"></div>
 
     <!-- Row 1: brand · departments · call to action -->
     <div class="grid items-center gap-8 pt-12 lg:grid-cols-[auto_1fr_auto] lg:gap-12">
-      <a href="#home" class="flex items-center gap-4" aria-label="فورتو - الرئيسية">
+      <a routerLink="/" class="flex items-center gap-4" aria-label="فورتو - الرئيسية">
         <img class="footer-logo" src="brand/logo.jpg" alt="" width="52" height="52" loading="lazy" />
         <span class="flex flex-col leading-tight">
           <span class="text-brand-gradient text-2xl font-extrabold">{{ brand }}</span>
@@ -15,10 +15,10 @@
       </a>
 
       <nav class="footer-depts" aria-label="أقسام فورتو">
-        @for (dept of departments; track dept.latin) {
-          <a href="#services" class="footer-dept">
-            <span class="footer-dept__name">{{ dept.name }}</span>
-            <span class="footer-dept__latin" dir="ltr">{{ dept.latin }}</span>
+        @for (dept of departments; track dept.slug) {
+          <a [routerLink]="['/', dept.slug]" class="footer-dept">
+            <span class="footer-dept__name">{{ dept.title }}</span>
+            <span class="footer-dept__latin" dir="ltr">{{ dept.brand }}</span>
           </a>
         }
       </nav>
@@ -32,8 +32,8 @@
     <!-- Row 2: links · address · email -->
     <div class="footer-meta mt-10 flex flex-col gap-5 pt-6 lg:flex-row lg:items-center lg:justify-between">
       <nav aria-label="روابط سريعة" class="flex flex-wrap gap-x-6 gap-y-2">
-        @for (link of links; track link.href) {
-          <a [href]="link.href" class="footer-link text-sm text-zinc-400">{{ link.label }}</a>
+        @for (link of links; track link.key) {
+          <a [routerLink]="link.route ?? path()" [fragment]="link.fragment" class="footer-link text-sm text-zinc-400">{{ link.label }}</a>
         }
       </nav>
 
@@ -86,7 +86,7 @@
         </li>
       </ul>
 
-      <a href="#home" class="back-top" aria-label="العودة لأعلى الصفحة">
+      <a href="/" class="back-top" aria-label="العودة لأعلى الصفحة" (click)="toTop($event)">
         <span>للأعلى</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 19V5" />
