@@ -62,6 +62,8 @@ export class AnalyticsService {
   landingPath = '';
 
   private enabled = false;
+  /** The gtag snippet in index.html is in charge of Google Analytics (and of its page views). */
+  private pageOwnsGa = false;
   private visitorId = '';
   private sessionId = '';
   private seq = 0;
@@ -127,7 +129,7 @@ export class AnalyticsService {
 
     if (this.debug) console.debug('[analytics]', name, merged);
 
-    if (ANALYTICS.ga4Id && window.gtag) window.gtag('event', name, merged);
+    if (ANALYTICS.ga4Id && window.gtag && !(this.pageOwnsGa && name === 'page_view')) window.gtag('event', name, merged);
 
     if (ANALYTICS.endpoint) {
       this.queue.push({ name, ts: Date.now(), seq: ++this.seq, vid: this.visitorId, sid: this.sessionId, params: merged });
@@ -198,6 +200,13 @@ export class AnalyticsService {
   private loadGa4(): void {
     const id = ANALYTICS.ga4Id;
     if (!id) return;
+
+    // index.html already carries Google's own tag: reuse it instead of loading a second copy
+    // (which would count every visit twice). Google then records page views itself.
+    if (typeof window.gtag === 'function') {
+      this.pageOwnsGa = true;
+      return;
+    }
 
     window.dataLayer = window.dataLayer || [];
     window.gtag = function gtag(): void {

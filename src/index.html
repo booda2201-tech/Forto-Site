@@ -91,6 +91,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+
+  <!-- Visitors who opted out (?no_track=1 on their own device, or Do Not Track) are not counted by Google either -->
+  <script>
+    try {
+      var q = new URLSearchParams(location.search).get('no_track');
+      if (q === '1') localStorage.setItem('forto_no_track', '1');
+      if (q === '0') localStorage.removeItem('forto_no_track');
+      if (localStorage.getItem('forto_no_track') === '1' || navigator.doNotTrack === '1') window['ga-disable-G-QDCKLCFM4D'] = true;
+    } catch (e) {}
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QDCKLCFM4D"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QDCKLCFM4D');
+  </script>
 </head>
 <body>
   <app-root></app-root>
