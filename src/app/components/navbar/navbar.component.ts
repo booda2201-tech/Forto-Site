@@ -7,10 +7,12 @@ import {
   OnInit,
   ViewChild,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { PageStateService } from '../../core/page-state.service';
 import { injectIsBrowser } from '../../core/platform';
@@ -31,6 +33,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private readonly zone = inject(NgZone);
   private readonly pageState = inject(PageStateService);
   private readonly isBrowser = injectIsBrowser();
+
+  constructor() {
+    // With the phone menu open the page behind it must not scroll under the visitor's finger.
+    effect(() => {
+      const open = this.menuOpen();
+      if (this.isBrowser) document.documentElement.classList.toggle('menu-open', open);
+    });
+  }
 
   protected readonly links = NAV_LINKS;
   protected readonly brand = SITE.name;
@@ -58,12 +68,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
   @ViewChild('progress', { static: true }) private readonly progress!: ElementRef<HTMLElement>;
 
   private lastY = 0;
+  private max = -1;
+  private contactTop = -1;
+
+  private readonly measure = (): void => {
+    this.max = document.documentElement.scrollHeight - window.innerHeight;
+    const contact = document.getElementById('contact');
+    this.contactTop = contact ? contact.getBoundingClientRect().top + window.scrollY : -1;
+  };
+
+  private readonly invalidate = (): void => {
+    this.max = -1;
+  };
 
   private readonly onScroll = (): void => {
     const y = window.scrollY;
 
     // Reading-progress hairline (direct DOM write: no change detection per scroll event).
-    const max = document.documentElement.scrollHeight - window.innerHeight;
+    // Page metrics are measured only when the layout changes (resize, ScrollTrigger refresh);
+    // reading them on every scroll event forced a layout while the pin was moving things.
+    if (this.max < 0) this.measure();
+    const max = this.max;
     this.progress.nativeElement.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
 
     // Only re-enter Angular when a value actually flips.
@@ -75,10 +100,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     else if (delta < -8) isHidden = false;
     if (Math.abs(delta) > 8 || y < 160) this.lastY = y;
 
-    const contact = document.getElementById('contact');
     const reached =
-      (max > 0 && y >= max - 4) ||
-      (!!contact && contact.getBoundingClientRect().top <= window.innerHeight * 0.4);
+      (max > 0 && y >= max - 4) || (this.contactTop >= 0 && this.contactTop - y <= window.innerHeight * 0.4);
 
     if (isScrolled !== this.scrolled() || isHidden !== this.hidden() || reached !== this.atContact()) {
       this.zone.run(() => {
@@ -93,6 +116,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       window.addEventListener('scroll', this.onScroll, { passive: true });
+      window.addEventListener('resize', this.invalidate, { passive: true });
+      ScrollTrigger.addEventListener('refresh', this.invalidate);
     });
     this.onScroll();
   }
@@ -100,6 +125,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (!this.isBrowser) return;
     window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.invalidate);
+    ScrollTrigger.removeEventListener('refresh', this.invalidate);
   }
 
   protected toggleMenu(): void {

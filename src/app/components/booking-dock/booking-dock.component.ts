@@ -48,11 +48,13 @@ export class BookingDockComponent implements OnInit, OnDestroy {
 
   private frame = 0;
   private readonly onScroll = (): void => {
+    // Show/hide needs no frame-perfect timing, and each check measures the layout. Doing it at
+    // most ~6 times a second keeps those reads out of the scrolling frames.
     if (this.frame) return;
-    this.frame = requestAnimationFrame(() => {
+    this.frame = window.setTimeout(() => {
       this.frame = 0;
       this.update();
-    });
+    }, 160);
   };
 
   ngOnInit(): void {
@@ -69,7 +71,7 @@ export class BookingDockComponent implements OnInit, OnDestroy {
     if (!this.isBrowser) return;
     window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('resize', this.onScroll);
-    cancelAnimationFrame(this.frame);
+    clearTimeout(this.frame);
   }
 
   /**

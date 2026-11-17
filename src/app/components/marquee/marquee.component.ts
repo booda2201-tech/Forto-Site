@@ -56,9 +56,11 @@ export class MarqueeComponent implements AfterViewInit, OnDestroy {
           // No point animating text nobody can see.
           onToggle: (self) => tweens.forEach((t) => (self.isActive ? t.resume() : t.pause())),
           onUpdate: (self) => {
+            // Scrolling speeds the words up, in either direction. They used to turn around when the
+            // page was scrolled up, which looked like a glitch next to a smooth scroll.
             const boost = 1 + Math.min(Math.abs(self.getVelocity()) / 260, 6);
             tweens.forEach((t) => {
-              t.timeScale(boost * (self.direction === 1 ? 1 : -1));
+              t.timeScale(boost);
               gsap.to(t, { timeScale: 1, duration: 1.2, overwrite: true });
             });
           },

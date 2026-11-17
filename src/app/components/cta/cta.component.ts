@@ -7,6 +7,7 @@ import {
   NgZone,
   OnDestroy,
   inject,
+  signal,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { gsap } from 'gsap';
@@ -46,6 +47,19 @@ export class CtaComponent implements AfterViewInit, OnDestroy {
     'https://maps.google.com/maps?q=29.9999656,31.0997028&z=17&hl=ar&output=embed',
   );
 
+  /** True while the map may be dragged and zoomed. */
+  protected readonly mapLive = signal(false);
+  private mapTimer = 0;
+
+  protected activateMap(event: MouseEvent): void {
+    this.mapLive.set(true);
+    // A finger has no "pointer leaves": hand the page back after a moment so it can scroll again.
+    window.clearTimeout(this.mapTimer);
+    if ((event as PointerEvent).pointerType === 'touch') {
+      this.mapTimer = window.setTimeout(() => this.mapLive.set(false), 6000);
+    }
+  }
+
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
@@ -67,6 +81,7 @@ export class CtaComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.isBrowser) window.clearTimeout(this.mapTimer);
     this.mm?.revert();
   }
 }

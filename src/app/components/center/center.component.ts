@@ -120,7 +120,8 @@ export class CenterComponent implements AfterViewInit, OnDestroy {
             start: 'top top',
             end: `+=${(slides.length - 1) * 85}%`,
             pin: true,
-            scrub: 0.6,
+            // A short catch-up so the photos ease between wheel notches instead of stepping.
+            scrub: 0.4,
             onUpdate: (self) => {
               if (fill) fill.style.transform = `scaleY(${self.progress})`;
               setActive(Math.min(slides.length - 1, Math.round(self.progress * (slides.length - 1))));

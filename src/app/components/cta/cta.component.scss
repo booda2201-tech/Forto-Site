@@ -61,12 +61,51 @@
 
   // The map takes the leftover height; the action bar below never covers it
   // (so Google's attribution stays visible).
+  &__view {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 18rem;
+    cursor: pointer;
+
+    &.is-live {
+      cursor: auto;
+    }
+  }
+
+  &__hint {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0.9rem;
+    width: fit-content;
+    margin-inline: auto;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #e7e5e4;
+    background: rgba(10, 10, 10, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  &__view.is-live &__hint {
+    opacity: 0;
+  }
+
+  &__view.is-live &__frame {
+    pointer-events: auto;
+  }
+
   &__frame {
     display: block;
     flex: 1 1 auto;
     width: 100%;
     min-height: 18rem;
     border: 0;
+    // Inert until the visitor asks to use it (see the template).
+    pointer-events: none;
     // Turns Google's light map into a dark one that matches the site.
     filter: invert(92%) hue-rotate(180deg) grayscale(0.35) contrast(0.95) brightness(0.9);
   }

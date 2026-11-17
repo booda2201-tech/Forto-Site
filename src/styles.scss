@@ -176,16 +176,7 @@ section[id] {
 /* ------------------------------------------------------------------ */
 /*  Smooth scroll (Lenis) + loading + cursor                           */
 /* ------------------------------------------------------------------ */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-stopped,
+html.menu-open,
 html.is-loading {
   overflow: hidden;
 }
@@ -202,8 +193,9 @@ body::after {
   inset: 0;
   z-index: 900;
   pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
+  // No blend mode: blending a full-screen layer with whatever is under it (playing videos,
+  // pinned photos) redraws the whole screen on every scrolled frame.
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -213,6 +205,12 @@ body::after {
   body::after {
     display: none;
   }
+}
+
+/* Desktop too: a full-screen fixed layer over playing video and the pinned section is
+   recomposited on every scrolled frame, which is exactly where the page stutters. */
+body::after {
+  display: none;
 }
 
 /* Section label: "01 — خدماتنا" */

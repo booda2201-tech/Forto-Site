@@ -1,93 +1,56 @@
-import { Injectable, NgZone, inject } from '@angular/core';
-import Lenis from 'lenis';
+import { Injectable } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 /**
- * Inertial smooth scrolling (Lenis) wired into GSAP's ticker so ScrollTrigger,
- * pinned sections and WebGL scroll uniforms all share one clock.
+ * Scrolling is the browser's own. A JavaScript smooth scroller (Lenis) used to sit on top of it,
+ * but it replaces the wheel with its own animation, and next to the pinned section, the scrubbed
+ * parallax and the sticky bars that made the page feel detached and jittery. The browser's native
+ * scrolling is already smooth and runs on the compositor, so ScrollTrigger just follows it.
+ *
+ * What is left here: ScrollTrigger setup, gliding to sections (anchors, route changes) and the lock
+ * the preloader uses.
  */
 @Injectable({ providedIn: 'root' })
 export class SmoothScrollService {
-  private readonly zone = inject(NgZone);
-  private lenis?: Lenis;
-
   readonly reducedMotion =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  private ready = false;
+
   init(): void {
-    if (typeof window === 'undefined') return; // prerendering: nothing to scroll
+    if (typeof window === 'undefined' || this.ready) return; // prerendering: nothing to scroll
+    this.ready = true;
+
     gsap.registerPlugin(ScrollTrigger);
     // Phones: the URL bar sliding in/out resizes the viewport while scrolling. Don't rebuild every
-    // pinned timeline for it (that is what makes the hero stutter and jump on mobile).
+    // pinned timeline for it.
     ScrollTrigger.config({ ignoreMobileResize: true });
-    if (this.reducedMotion || this.lenis) return;
 
-    // Phones / touch: native scrolling already has the right inertia. Layering Lenis' wheel
-    // smoothing on top of the scrubbed hero film is what made it feel laggy and "floaty".
-    if (window.matchMedia('(max-width: 767px), (pointer: coarse)').matches) {
-      document.addEventListener('click', (event) => {
-        const anchor = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
-        const hash = anchor?.getAttribute('href');
-        if (!anchor || !hash || hash.length < 2) return;
-        const target = document.querySelector<HTMLElement>(hash);
-        if (!target) return;
-        event.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-      return;
-    }
-
-    this.zone.runOutsideAngular(() => {
-      const lenis = new Lenis({ lerp: 0.085, smoothWheel: true, anchors: false });
-      this.lenis = lenis;
-
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => lenis.raf(time * 1000));
-      gsap.ticker.lagSmoothing(0);
-
-      // Hash links glide instead of jumping.
-      document.addEventListener('click', (event) => {
-        const anchor = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
-        const hash = anchor?.getAttribute('href');
-        if (!anchor || !hash || hash.length < 2) return;
-        const target = document.querySelector<HTMLElement>(hash);
-        if (!target) return;
-        event.preventDefault();
-        lenis.scrollTo(target, { duration: 1.6, easing: (t: number) => 1 - Math.pow(1 - t, 4) });
-      });
+    // In-page links (#services…) glide to their section.
+    document.addEventListener('click', (event) => {
+      const anchor = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
+      const hash = anchor?.getAttribute('href');
+      if (!anchor || !hash || hash.length < 2) return;
+      const target = document.querySelector<HTMLElement>(hash);
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: this.reducedMotion ? 'auto' : 'smooth', block: 'start' });
     });
   }
 
-  /**
-   * Scrolls to a CSS selector or to a Y position, gliding unless `immediate` is set.
-   * Works with or without Lenis (phones and reduced-motion use the browser's own scrolling).
-   */
+  /** Scrolls to a CSS selector or to a Y position, gliding unless `immediate` is set. */
   scrollTo(target: string | number, immediate = false): void {
     if (typeof window === 'undefined') return;
-    const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : null;
-    if (typeof target === 'string' && !el) return;
-
-    if (this.lenis) {
-      const to = el ?? (target as number);
-      this.lenis.scrollTo(
-        to,
-        immediate
-          ? { immediate: true, force: true }
-          : { duration: 1.6, easing: (t: number) => 1 - Math.pow(1 - t, 4) },
-      );
-      return;
+    const behavior: ScrollBehavior = immediate || this.reducedMotion ? 'auto' : 'smooth';
+    if (typeof target === 'string') {
+      document.querySelector<HTMLElement>(target)?.scrollIntoView({ behavior, block: 'start' });
+    } else {
+      window.scrollTo({ top: target, behavior });
     }
-    const behavior: ScrollBehavior = immediate ? 'auto' : 'smooth';
-    if (el) el.scrollIntoView({ behavior, block: 'start' });
-    else window.scrollTo({ top: target as number, behavior });
   }
 
-  stop(): void {
-    this.lenis?.stop();
-  }
-
-  start(): void {
-    this.lenis?.start();
-  }
+  // The preloader holds the page still with the `is-loading` class; nothing else to pause.
+  stop(): void {}
+  start(): void {}
 }

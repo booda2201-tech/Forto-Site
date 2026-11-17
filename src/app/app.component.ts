@@ -47,6 +47,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.isBrowser) {
+      // The browser would put a reloaded page back at its old scroll position before the layout,
+      // the pinned sections and the smooth scroller exist, and the page would land in the wrong place.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       this.smoothScroll.init();
       this.analytics.init();
       this.behavior.start();
@@ -75,7 +78,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
         const isFirst = first;
         first = false;
-        // Wait for the new page to render, then re-measure everything and scroll.
+        // A new page starts at its top straight away. Doing it later (after the page had already
+        // painted at the old scroll position) showed the new page jumping.
+        if (!isFirst && !fragment) this.smoothScroll.scrollTo(0, true);
+        // Wait for the new page to render, then re-measure everything and glide to a section.
         setTimeout(() => {
           ScrollTrigger.refresh();
           AOS.refreshHard();
@@ -83,8 +89,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             const go = (): void => this.smoothScroll.scrollTo(`#${fragment}`, isFirst);
             if (isFirst) void this.loader.ready.then(() => setTimeout(go, 50));
             else go();
-          } else if (!isFirst) {
-            this.smoothScroll.scrollTo(0, true);
           }
         }, 80);
       });
