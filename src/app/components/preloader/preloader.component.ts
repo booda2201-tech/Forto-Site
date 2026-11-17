@@ -12,6 +12,7 @@ import { gsap } from 'gsap';
 
 import { LOGO_SHIELD_PATH } from '../../core/logo-shield.path';
 import { LoaderService } from '../../core/loader.service';
+import { injectIsBrowser } from '../../core/platform';
 import { SmoothScrollService } from '../../core/smooth-scroll.service';
 
 /** Cinematic intro: logo draws itself, counter runs, then the curtains split open. */
@@ -29,6 +30,7 @@ export class PreloaderComponent implements AfterViewInit, OnDestroy {
   private readonly zone = inject(NgZone);
   private readonly loader = inject(LoaderService);
   private readonly smooth = inject(SmoothScrollService);
+  private readonly isBrowser = injectIsBrowser();
 
   protected readonly path = LOGO_SHIELD_PATH;
   /** Tight bounds of the full logo (shield + fortress) inside the 720x720 trace, with room for the stroke. */
@@ -36,6 +38,7 @@ export class PreloaderComponent implements AfterViewInit, OnDestroy {
   private tl?: gsap.core.Timeline;
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     const root = this.root.nativeElement;
 
     if (this.smooth.reducedMotion) {

@@ -10,6 +10,8 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { injectIsBrowser } from '../../core/platform';
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface Zone {
@@ -35,6 +37,7 @@ interface Zone {
 export class CenterComponent implements AfterViewInit, OnDestroy {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly zone = inject(NgZone);
+  private readonly isBrowser = injectIsBrowser();
   private mm?: gsap.MatchMedia;
   private railObserver?: IntersectionObserver;
 
@@ -88,6 +91,7 @@ export class CenterComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       const root = this.host.nativeElement;
       this.trackMobileRail(root);

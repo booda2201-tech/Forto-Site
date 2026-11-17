@@ -69,10 +69,12 @@ export class AnalyticsService {
   private seq = 0;
   private queue: QueuedEvent[] = [];
   private flushTimer = 0;
-  private readonly debug = ANALYTICS.debug || this.readStorage(localStorage, 'forto_debug') === '1';
+  /** Set in init() (browser only): localStorage does not exist while the page is prerendered. */
+  private debug: boolean = ANALYTICS.debug;
 
   init(): void {
     if (this.enabled) return;
+    this.debug = this.debug || this.readStorage(localStorage, 'forto_debug') === '1';
 
     // ?no_track=1 switches tracking off on this browser for good; ?no_track=0 switches it back on.
     const flag = new URLSearchParams(location.search).get('no_track');

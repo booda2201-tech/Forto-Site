@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 
 import { departmentBySlug } from '../../core/departments';
+import { injectIsBrowser } from '../../core/platform';
 import { PageStateService } from '../../core/page-state.service';
 import { SITE, whatsappLink } from '../../core/site.config';
 
@@ -42,7 +43,8 @@ export class BookingDockComponent implements OnInit, OnDestroy {
   protected readonly mapsUrl = SITE.mapsUrl;
 
   /** Same query the centre section uses to decide whether it pins. */
-  private readonly pinnedLayout = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
+  private pinnedLayout?: MediaQueryList;
+  private readonly isBrowser = injectIsBrowser();
 
   private frame = 0;
   private readonly onScroll = (): void => {
@@ -54,6 +56,8 @@ export class BookingDockComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    if (!this.isBrowser) return;
+    this.pinnedLayout = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
     this.zone.runOutsideAngular(() => {
       window.addEventListener('scroll', this.onScroll, { passive: true });
       window.addEventListener('resize', this.onScroll, { passive: true });
@@ -62,6 +66,7 @@ export class BookingDockComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (!this.isBrowser) return;
     window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('resize', this.onScroll);
     cancelAnimationFrame(this.frame);
@@ -72,7 +77,7 @@ export class BookingDockComponent implements OnInit, OnDestroy {
    * fill the bottom edge, exactly where the dock sits. Step aside while that section is on screen.
    */
   private overStage(vh: number): boolean {
-    if (!this.pinnedLayout.matches) return false;
+    if (!this.pinnedLayout?.matches) return false;
     const stage = document.getElementById('center');
     if (!stage) return false;
     const r = stage.getBoundingClientRect();

@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { gsap } from 'gsap';
 
+import { injectIsBrowser } from '../../core/platform';
+
 /** Custom cursor: dot + trailing ring that morphs over interactive elements. Desktop only. */
 @Component({
   selector: 'app-cursor',
@@ -27,9 +29,11 @@ export class CursorComponent implements AfterViewInit, OnDestroy {
   @ViewChild('label', { static: true }) private readonly label!: ElementRef<HTMLElement>;
 
   private readonly zone = inject(NgZone);
+  private readonly isBrowser = injectIsBrowser();
   private cleanup?: () => void;
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     // No custom cursor on touch devices or phone-sized screens (also when a desktop browser emulates one).
     if (!window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 768px)').matches) {
       this.ring.nativeElement.remove();

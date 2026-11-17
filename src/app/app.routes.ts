@@ -3,9 +3,10 @@ import { Routes } from '@angular/router';
 import { DEPARTMENTS } from './core/departments';
 import { DepartmentPage } from './pages/department/department.page';
 import { HomePage } from './pages/home/home.page';
+import { HOME_SEO } from './core/seo.service';
 
 export const routes: Routes = [
-  { path: '', component: HomePage, title: 'فورتو | مركز متكامل لخدمة السيارات - الهرم، الجيزة' },
+  { path: '', component: HomePage, title: HOME_SEO.title },
   // One route per department (not one parametrised route) so moving between departments
   // always builds the page from scratch: its scroll triggers and videos start clean.
   ...DEPARTMENTS.map((d) => ({

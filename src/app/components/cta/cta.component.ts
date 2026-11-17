@@ -12,6 +12,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { injectIsBrowser } from '../../core/platform';
 import { SITE, whatsappLink } from '../../core/site.config';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -29,6 +30,7 @@ export class CtaComponent implements AfterViewInit, OnDestroy {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly zone = inject(NgZone);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly isBrowser = injectIsBrowser();
   private mm?: gsap.MatchMedia;
 
   /** WhatsApp link; department pages pass one that names the department. */
@@ -45,6 +47,7 @@ export class CtaComponent implements AfterViewInit, OnDestroy {
   );
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       const root = this.host.nativeElement;
       this.mm = gsap.matchMedia(root);

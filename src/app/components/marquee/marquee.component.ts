@@ -10,6 +10,8 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { injectIsBrowser } from '../../core/platform';
+
 gsap.registerPlugin(ScrollTrigger);
 
 /** Two counter-moving ticker rows that speed up (and flip) with scroll velocity. */
@@ -24,6 +26,7 @@ gsap.registerPlugin(ScrollTrigger);
 export class MarqueeComponent implements AfterViewInit, OnDestroy {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly zone = inject(NgZone);
+  private readonly isBrowser = injectIsBrowser();
   private mm?: gsap.MatchMedia;
   private trigger?: ScrollTrigger;
 
@@ -33,6 +36,7 @@ export class MarqueeComponent implements AfterViewInit, OnDestroy {
   protected readonly copies = [0, 1];
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       this.mm = gsap.matchMedia(this.host.nativeElement);
       this.mm.add('(prefers-reduced-motion: no-preference)', () => {

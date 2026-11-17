@@ -5,6 +5,8 @@
 export const SITE = {
   name: 'فورتو ',
   latinName: 'Forto',
+  /** Public address of the site, without a trailing slash (canonical and Open Graph URLs). */
+  url: 'https://forto-site.vercel.app',
   descriptor: 'Car Center',
   tagline: 'عناية تليق بـ سيارتك',
   description: 'أعلى معايير الجودة في الميكانيكا، السمكرة، والنانو سيراميك.',

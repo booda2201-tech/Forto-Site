@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 
 import { DEPARTMENTS } from '../../core/departments';
 import { PageStateService } from '../../core/page-state.service';
+import { injectIsBrowser } from '../../core/platform';
 import { NAV_LINKS, SITE, whatsappLink } from '../../core/site.config';
 import { SmoothScrollService } from '../../core/smooth-scroll.service';
 
@@ -30,6 +31,7 @@ export class FooterComponent implements AfterViewInit, OnDestroy {
 
   private readonly zone = inject(NgZone);
   private readonly smoothScroll = inject(SmoothScrollService);
+  private readonly isBrowser = injectIsBrowser();
   private cleanup?: () => void;
 
   protected readonly site = SITE;
@@ -48,6 +50,7 @@ export class FooterComponent implements AfterViewInit, OnDestroy {
 
   /** The glow layer follows the pointer: we only write two CSS variables, no re-render. */
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     const el = this.word.nativeElement;
     const card = this.card.nativeElement;
 

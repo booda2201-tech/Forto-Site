@@ -12,6 +12,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { DEPARTMENTS } from '../../core/departments';
+import { injectIsBrowser } from '../../core/platform';
 import { TiltDirective } from '../../directives/tilt.directive';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,6 +29,7 @@ gsap.registerPlugin(ScrollTrigger);
 export class ServicesComponent implements AfterViewInit, OnDestroy {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly zone = inject(NgZone);
+  private readonly isBrowser = injectIsBrowser();
   private mm?: gsap.MatchMedia;
 
   protected readonly intro =
@@ -37,6 +39,7 @@ export class ServicesComponent implements AfterViewInit, OnDestroy {
   protected readonly departments = DEPARTMENTS;
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       this.mm = gsap.matchMedia(this.host.nativeElement);
       this.mm.add('(prefers-reduced-motion: no-preference)', () => {

@@ -13,6 +13,7 @@ import {
 import { RouterLink } from '@angular/router';
 
 import { PageStateService } from '../../core/page-state.service';
+import { injectIsBrowser } from '../../core/platform';
 import { NAV_LINKS, SITE, whatsappLink } from '../../core/site.config';
 
 @Component({
@@ -29,6 +30,7 @@ import { NAV_LINKS, SITE, whatsappLink } from '../../core/site.config';
 export class NavbarComponent implements OnInit, OnDestroy {
   private readonly zone = inject(NgZone);
   private readonly pageState = inject(PageStateService);
+  private readonly isBrowser = injectIsBrowser();
 
   protected readonly links = NAV_LINKS;
   protected readonly brand = SITE.name;
@@ -88,6 +90,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       window.addEventListener('scroll', this.onScroll, { passive: true });
     });
@@ -95,6 +98,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (!this.isBrowser) return;
     window.removeEventListener('scroll', this.onScroll);
   }
 

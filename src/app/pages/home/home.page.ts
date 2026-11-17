@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { CenterComponent } from '../../components/center/center.component';
 import { CtaComponent } from '../../components/cta/cta.component';
@@ -25,16 +24,6 @@ import { CENTER_REELS } from '../../core/departments';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
-export class HomePage implements OnInit {
-  private readonly meta = inject(Meta);
-
+export class HomePage {
   protected readonly centerReels = CENTER_REELS;
-
-  ngOnInit(): void {
-    this.meta.updateTag({
-      name: 'description',
-      content:
-        'فورتو لخدمة السيارات في الهرم، الجيزة: غسيل وتلميع (كار كير)، ميكانيكا وصيانة (سيرفيس)، وسمكرة ودهان ونانو سيراميك (بروتكشن). احجز موعدك الآن.',
-    });
-  }
 }

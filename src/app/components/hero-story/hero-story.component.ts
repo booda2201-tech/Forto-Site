@@ -11,6 +11,7 @@ import { gsap } from 'gsap';
 
 import { HERO_MASK_PATH, HERO_MASK_VIEWBOX } from '../../core/hero-mask.path';
 import { LoaderService } from '../../core/loader.service';
+import { injectIsBrowser } from '../../core/platform';
 import { SITE, whatsappLink } from '../../core/site.config';
 import { MagneticDirective } from '../../directives/magnetic.directive';
 
@@ -38,6 +39,7 @@ export class HeroStoryComponent implements AfterViewInit, OnDestroy {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly zone = inject(NgZone);
   private readonly loader = inject(LoaderService);
+  private readonly isBrowser = injectIsBrowser();
   private mm?: gsap.MatchMedia;
   private visibility?: IntersectionObserver;
   private disposePointer?: () => void;
@@ -59,6 +61,7 @@ export class HeroStoryComponent implements AfterViewInit, OnDestroy {
   ];
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       const root = this.host.nativeElement;
       const videos = Array.from(root.querySelectorAll<HTMLVideoElement>('.wall-vid'));

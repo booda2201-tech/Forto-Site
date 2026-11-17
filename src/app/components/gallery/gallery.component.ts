@@ -12,6 +12,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { DepartmentPhoto } from '../../core/departments';
+import { injectIsBrowser } from '../../core/platform';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,6 +32,7 @@ gsap.registerPlugin(ScrollTrigger);
 export class GalleryComponent implements AfterViewInit, OnDestroy {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly zone = inject(NgZone);
+  private readonly isBrowser = injectIsBrowser();
   private mm?: gsap.MatchMedia;
 
   @Input({ required: true }) items: readonly DepartmentPhoto[] = [];
@@ -41,6 +43,7 @@ export class GalleryComponent implements AfterViewInit, OnDestroy {
   @Input() titleAccent = '';
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       const root = this.host.nativeElement;
       this.mm = gsap.matchMedia(root);

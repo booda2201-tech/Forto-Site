@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import AOS from 'aos';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -13,6 +22,7 @@ import { AnalyticsService } from './core/analytics.service';
 import { BehaviorTrackerService } from './core/behavior-tracker.service';
 import { LoaderService } from './core/loader.service';
 import { PageStateService } from './core/page-state.service';
+import { SeoService } from './core/seo.service';
 import { SmoothScrollService } from './core/smooth-scroll.service';
 
 @Component({
@@ -30,28 +40,38 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly pageState = inject(PageStateService);
   private readonly analytics = inject(AnalyticsService);
   private readonly behavior = inject(BehaviorTrackerService);
+  private readonly seo = inject(SeoService);
+  /** The pages are also rendered once at build time (prerendering), where there is no browser. */
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private navigation?: Subscription;
 
   ngOnInit(): void {
-    this.smoothScroll.init();
-    this.analytics.init();
-    this.behavior.start();
+    if (this.isBrowser) {
+      this.smoothScroll.init();
+      this.analytics.init();
+      this.behavior.start();
 
-    AOS.init({
-      duration: 1000,
-      easing: 'ease-out-cubic',
-      offset: 80,
-      once: true,
-      // Respect users who prefer reduced motion.
-      disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    });
+      AOS.init({
+        duration: 1000,
+        easing: 'ease-out-cubic',
+        offset: 80,
+        once: true,
+        // Respect users who prefer reduced motion.
+        disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      });
+    }
 
     let first = true;
     this.navigation = this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((e) => {
         const [path, fragment] = e.urlAfterRedirects.split('#');
-        this.pageState.path.set(path!.split('?')[0] || '/');
+        const pagePath = path!.split('?')[0] || '/';
+        // Both of these also run while prerendering, so each static page gets its own head tags
+        // and its own highlighted menu link.
+        this.pageState.path.set(pagePath);
+        this.seo.apply(pagePath);
+        if (!this.isBrowser) return;
 
         const isFirst = first;
         first = false;
@@ -71,6 +91,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     // Child views are rendered now; make sure AOS has measured every [data-aos] node.
     AOS.refreshHard();
   }

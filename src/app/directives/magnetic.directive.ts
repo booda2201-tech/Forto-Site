@@ -1,6 +1,8 @@
 import { Directive, ElementRef, NgZone, OnDestroy, OnInit, inject, input } from '@angular/core';
 import { gsap } from 'gsap';
 
+import { injectIsBrowser } from '../core/platform';
+
 /** Element gently follows the pointer while hovered (desktop pointers only). */
 @Directive({ selector: '[appMagnetic]', standalone: true })
 export class MagneticDirective implements OnInit, OnDestroy {
@@ -8,9 +10,11 @@ export class MagneticDirective implements OnInit, OnDestroy {
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly zone = inject(NgZone);
+  private readonly isBrowser = injectIsBrowser();
   private cleanup?: () => void;
 
   ngOnInit(): void {
+    if (!this.isBrowser) return;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
     this.zone.runOutsideAngular(() => {

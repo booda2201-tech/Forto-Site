@@ -12,6 +12,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { Reel } from '../../core/departments';
+import { injectIsBrowser } from '../../core/platform';
 import { SITE } from '../../core/site.config';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,6 +29,7 @@ gsap.registerPlugin(ScrollTrigger);
 export class ReelsComponent implements AfterViewInit, OnDestroy {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly zone = inject(NgZone);
+  private readonly isBrowser = injectIsBrowser();
   private observer?: IntersectionObserver;
   private disposeVideos?: () => void;
   private mm?: gsap.MatchMedia;
@@ -49,6 +51,7 @@ export class ReelsComponent implements AfterViewInit, OnDestroy {
   @Input() titleTail = 'بنفسك';
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       const root = this.host.nativeElement;
       this.mm = gsap.matchMedia(root);

@@ -5,10 +5,10 @@ import {
   ElementRef,
   NgZone,
   OnDestroy,
-  OnInit,
+  PLATFORM_ID,
   inject,
 } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
+import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { gsap } from 'gsap';
 
@@ -32,10 +32,10 @@ import { SITE } from '../../core/site.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
-export class DepartmentPage implements OnInit, AfterViewInit, OnDestroy {
+export class DepartmentPage implements AfterViewInit, OnDestroy {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly zone = inject(NgZone);
-  private readonly meta = inject(Meta);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly loader = inject(LoaderService);
   private mm?: gsap.MatchMedia;
 
@@ -62,11 +62,8 @@ export class DepartmentPage implements OnInit, AfterViewInit, OnDestroy {
     { title: 'تعالى المحطة', text: 'محطة فيول أب على الطريق الدائري، الهرم.' },
   ] as const;
 
-  ngOnInit(): void {
-    this.meta.updateTag({ name: 'description', content: this.dept.seoDescription });
-  }
-
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.zone.runOutsideAngular(() => {
       this.mm = gsap.matchMedia(this.host.nativeElement);
       this.mm.add('(prefers-reduced-motion: no-preference)', () => {

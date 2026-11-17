@@ -16,6 +16,7 @@ export class SmoothScrollService {
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   init(): void {
+    if (typeof window === 'undefined') return; // prerendering: nothing to scroll
     gsap.registerPlugin(ScrollTrigger);
     // Phones: the URL bar sliding in/out resizes the viewport while scrolling. Don't rebuild every
     // pinned timeline for it (that is what makes the hero stutter and jump on mobile).
@@ -63,6 +64,7 @@ export class SmoothScrollService {
    * Works with or without Lenis (phones and reduced-motion use the browser's own scrolling).
    */
   scrollTo(target: string | number, immediate = false): void {
+    if (typeof window === 'undefined') return;
     const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : null;
     if (typeof target === 'string' && !el) return;
 

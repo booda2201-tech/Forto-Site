@@ -1,6 +1,8 @@
 import { Directive, ElementRef, NgZone, OnDestroy, OnInit, inject } from '@angular/core';
 import { gsap } from 'gsap';
 
+import { injectIsBrowser } from '../core/platform';
+
 /**
  * 3D tilt + a cursor-following spotlight. Exposes `--mx` / `--my` (px) as CSS
  * variables so the stylesheet decides how the light looks.
@@ -9,9 +11,11 @@ import { gsap } from 'gsap';
 export class TiltDirective implements OnInit, OnDestroy {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly zone = inject(NgZone);
+  private readonly isBrowser = injectIsBrowser();
   private cleanup?: () => void;
 
   ngOnInit(): void {
+    if (!this.isBrowser) return;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
     this.zone.runOutsideAngular(() => {
